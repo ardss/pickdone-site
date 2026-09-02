@@ -814,8 +814,14 @@
 
   document.getElementById('langZh').addEventListener('click', function () { applyLang('zh') })
   document.getElementById('langEn').addEventListener('click', function () { applyLang('en') })
-  var saved = 'zh'
-  try { saved = localStorage.getItem(LS_LANG) || 'zh' } catch (e) {}
+  var saved = ''
+  try { saved = localStorage.getItem(LS_LANG) || '' } catch (e) {}
+  // 首访无手选记录时跟随浏览器语言:zh 系→中文,其余→英文
+  if (!saved) {
+    var navLang = ''
+    try { navLang = navigator.language || navigator.userLanguage || '' } catch (e) {}
+    saved = /^zh\b|^zh-|^zh_/i.test(navLang) ? 'zh' : 'en'
+  }
   if (saved === 'en') applyLang('en')
 
   /* ---------------- Hero mock：明暗切换 + 活的番茄计时 ---------------- */
