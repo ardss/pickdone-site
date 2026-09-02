@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://pickdone.app/</loc><priority>1.0</priority></url>
-  <url><loc>https://pickdone.app/guide.html</loc><priority>0.8</priority></url>
-  <url><loc>https://pickdone.app/cli.html</loc><priority>0.8</priority></url>
-  <url><loc>https://pickdone.app/data.html</loc><priority>0.7</priority></url>
-  <url><loc>https://pickdone.app/docs.html</loc><priority>0.7</priority></url>
-  <url><loc>https://pickdone.app/blog.html</loc><priority>0.6</priority></url>
-  <url><loc>https://pickdone.app/faq.html</loc><priority>0.6</priority></url>
+  <url><loc>https://pickdown.app/</loc><priority>1.0</priority></url>
+  <url><loc>https://pickdown.app/guide.html</loc><priority>0.8</priority></url>
+  <url><loc>https://pickdown.app/cli.html</loc><priority>0.8</priority></url>
+  <url><loc>https://pickdown.app/data.html</loc><priority>0.7</priority></url>
+  <url><loc>https://pickdown.app/docs.html</loc><priority>0.7</priority></url>
+  <url><loc>https://pickdown.app/blog.html</loc><priority>0.6</priority></url>
+  <url><loc>https://pickdown.app/faq.html</loc><priority>0.6</priority></url>
 </urlset>
