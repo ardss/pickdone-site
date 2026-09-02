@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>发布与手记 — 拾事 PickDone</title>
+<meta name="description" content="拾事 PickDone 的开发手记与版本发布记录：为什么做本地离线应用、CLI 的设计思考、版本更新内容。">
+<link rel="icon" type="image/png" href="assets/img/logo-64.png">
+<link rel="stylesheet" href="assets/css/style.css?v=20260902j">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html" aria-label="PickDone 首页">
+      <img src="assets/img/logo.png" alt="" width="34" height="34">
+      <span data-i18n-html="brand.name">拾事<small>PICKDONE</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="index.html#pillars" data-i18n="nav.features">功能</a>
+      <a href="index.html#cli" data-i18n="nav.cli">AI CLI</a>
+      <a href="docs.html" data-i18n="nav.docs">文档</a>
+      <a href="blog.html" data-i18n="nav.blog">更新</a>
+      <a href="index.html#compare" data-i18n="nav.compare">对比</a>
+      <a href="index.html#faq" data-i18n="nav.faq">常见问题</a>
+    </nav>
+    <div class="nav-acts">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" id="langZh" class="on" aria-pressed="true">中文</button>
+        <button type="button" id="langEn" aria-pressed="false">EN</button>
+      </div>
+      <a class="gh-link" href="https://github.com/ardss/pickdone" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="21" height="21" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      </a>
+      <a class="btn btn-primary btn-sm" href="index.html#download" data-i18n="nav.download">免费下载</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <a class="back-home" href="index.html" data-i18n="d.back">← 返回首页</a>
+      <h1 data-i18n="b.h1">发布与手记</h1>
+      <p class="lede" data-i18n="b.lede">开发过程中的想法、决策与版本记录。项目尚未正式发布，这里先放着底稿。</p>
+    </div>
+  </section>
+
+  <div class="wrap" style="padding-bottom:96px">
+    <section class="changelog reveal" id="changelog" aria-label="更新日志">
+      <h2 class="cl-title" data-i18n="b.cl.h">更新日志</h2>
+      <div class="cl-item">
+        <div class="cl-head">
+          <span class="cl-ver">v0.1.0</span>
+          <span class="cl-date" data-i18n="b.cl.date">即将发布</span>
+        </div>
+        <ul class="cl-list">
+          <li data-i18n-html="b.cl.i1"><b>完整功能首发</b>：今日清单（列表 / 四象限 / 卡片堆叠）、日程月历（农历 + 节假日 + 拖拽改期）、番茄专注全套、叙事式数据复盘</li>
+          <li data-i18n-html="b.cl.i2"><b>内置 AI CLI</b>：20+ 命令全部支持 --json，可注册为 Claude / Cursor 的工具，让 AI 直接替你记任务</li>
+          <li data-i18n-html="b.cl.i3"><b>桌面体验</b>：悬浮专注窗、桌面小组件、全局快捷键、深色模式、中英双语、自动备份</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 手记列表：卡片只露导语，点击弹窗读全文（不跳页；全文节点原地保存，中英切换实时生效） -->
+    <div class="post-list" id="postList">
+    <article class="post reveal" id="post-cli">
+      <div class="post-head"><span class="tag-pill" data-i18n="b.p2tag">开发手记</span><span class="post-date" data-i18n="b.p2date">2026-09-01</span></div>
+      <h2 data-i18n="b.p2t">让 AI 替你管任务：CLI 的设计笔记</h2>
+      <p data-i18n="b.p2p1">拾事内置了一套 CLI，最初的目的很自私：我想让自己的 AI 助手帮我记任务。后来发现这件事的意义远大于初衷——当应用的所有能力都开放为命令行原语，人和 AI 就有了同一套入口，不需要为 AI 单独开发接口，也不需要把数据交出去。</p>
+      <p data-i18n="b.p2p2">设计上守着三条：第一，每个能力都是一个可独立调用的原语，支持结构化输出，Agent 拿到 JSON 就能干活；第二，人和 AI 读写同一个本地库，不存在「AI 那边一份、我这边一份」的同步问题；第三，危险操作走和界面一致的确认与撤销路径，AI 不能绕过安全栏。</p>
+      <p data-i18n="b.p2p3">「帮我把周报加到周五，提前一天提醒我」——这句话现在真的可以落地。这是我在这个项目里最喜欢的一件事。</p>
+    </article>
+
+    <article class="post reveal" id="post-local">
+      <div class="post-head"><span class="tag-pill" data-i18n="b.p1tag">开发手记</span><span class="post-date" data-i18n="b.p1date">2026-09-01</span></div>
+      <h2 data-i18n="b.p1t">为什么我做一个「不出网」的待办应用</h2>
+      <p data-i18n="b.p1p1">市面上不缺待办应用，缺的是「敢把数据留在你电脑里」的待办应用。主流产品几乎都默认把你的任务、习惯、专注记录放进云端：注册、登录、同步，一条龙。方便吗？方便。代价呢？你的数据躺在别人的服务器上，断网时半残，导出时设置重重关卡。</p>
+      <p data-i18n="b.p1p2">我不反对云同步，我反对的是「没有别的选项」。拾事就是那个别的选项：零账号、零联网，全部数据是一个本机加密数据库文件，备份即迁移，删除即离开。它免费、开源，你可以自己编译，也可以随时走。</p>
+      <p data-i18n="b.p1p3">如果你也受够了「用个待办还得先注册」，试试拾事。</p>
+    </article>
+
+    <article class="post reveal" id="post-010">
+      <div class="post-head"><span class="tag-pill" data-i18n="b.p3tag">版本发布</span><span class="post-date" data-i18n="b.p3date">即将发布</span></div>
+      <h2 data-i18n="b.p3t">0.1.0：第一个公开版本里有什么</h2>
+      <p data-i18n="b.p3p1">首个公开版本会包含：今日清单（列表 / 四象限）、日程月历（农历 + 节假日 + 拖拽改期）、番茄工作流全套（25+5 轮转、悬浮窗、白噪音、24h 时间轴）、叙事式数据复盘（周报 / 热力图 / 成就徽章 / 分享卡片）、子任务与多重提醒、智能重复、自动备份、桌面小组件、全局快捷键、深色模式、中英双语，以及给 AI 用的 CLI。</p>
+      <p data-i18n="b.p3p2">免费，开源，Windows 10 / 11 可用。发布日子一旦定了，会在这里和 GitHub Releases 同步公布。</p>
+    </article>
+
+    <!-- 方法论系列：讲来历、讲故事、给出处,不卖产品 -->
+    <article class="post reveal" id="post-m1">
+      <div class="post-head"><span class="tag-pill" data-i18n="b.mtag">方法论</span><span class="post-date">2026-09-02</span></div>
+      <h2 data-i18n="b.m1t">番茄工作法入门：为什么是 25 分钟</h2>
+      <p data-i18n="b.m1p1">这个方法的开头一点也不严肃。1980 年代末，罗马的大学生 Francesco Cirillo 坐在书桌前，怎么都进入不了学习状态——每个学生都熟悉的时刻。他随手从厨房拿来一个番茄形状的计时器，跟自己打了个赌：能不能就专注这么一小会儿？这个赌局后来演变成《番茄工作法》，被写成书、翻译成多种语言，成了全世界流传最广的专注方法之一。</p>
+      <p data-i18n="b.m1p2">为什么偏偏是 25 分钟？那是 Cirillo 自己一次次试出来的数。它足够长，长到能让你穿过开头那阵不情愿，真正进入事情里面；又足够短，短到你不好意思拒绝——再难的任务，答应先做 25 分钟总是容易的。但比数字更重要的是方法里的另外两步：每颗番茄开始前，必须明确「这一颗要做什么」；结束后，必须记一笔账。计时只是外壳，真正的内核是把注意力变成可观察、可清点的单位。</p>
+      <h3 data-i18n="b.m1h1">原版方法其实有五步，不止一只计时器</h3>
+      <p data-i18n="b.m1p3">很多人不知道，Cirillo 的原版是一套完整的闭环，计时只是其中一环。流程是这样的：早上坐下来，先列出今天要做的事，并给每件事预估「大概要几颗番茄」；一天里执行，同时记下每件事实际用掉几颗；晚上收工前，把预估和实际摆在一起对账。对账那一刻，方法才真正兑现价值——你不但知道了今天专注了几颗，还知道了自己对时间的判断准不准。练上几周，预估会越来越准；再往后，「这件事要两颗番茄」就不是感觉，而是经验。</p>
+      <h3 data-i18n="b.m1h2">一颗番茄的完整生命周期</h3>
+      <p data-i18n="b.m1p4">开始前：从清单里选一件事。如果它预估超过五六颗，先拆小——拆到一两颗能出一个可见结果为止。然后明确这颗番茄的完成线：「这一颗写到第二章前两节」，而不是「这一颗写论文」。写论文没法专注，写前两节可以。</p>
+      <p data-i18n="b.m1p5">期间：守两条边界。外面的打断——消息、来电、同事提问——能推迟的全部推迟，手机翻面扣在桌上。心里的打断更常见也更隐蔽：专注到一半，突然想起「要买洗衣液」「该回一条消息」。原版的做法很朴素：在手边的纸上记一笔，然后回来，不让它带走注意力。规矩里只有一条是硬的：如果真的被彻底打断，这颗番茄作废，不算数。作废不可惜——它保护的是「一颗番茄＝一段完整专注」这个记账单位的价值。一旦开始允许「被打断的也算」，账目就失去意义了。</p>
+      <p data-i18n="b.m1p6">响铃后：即使感觉正好，也停一下。这几分钟可以用来做一次快速回顾——刚才这段的脉络是什么，下一步从哪接——Cirillo 把这叫「过度学习」，它让下一颗番茄不用重新热身。然后一定要休息：站起来，接杯水，看看窗外。休息不是奖励，是流程的一半；连续四五颗之后，来一次 15–30 分钟的长休息。</p>
+      <h3 data-i18n="b.m1h3">四种最常见的错法</h3>
+      <p data-i18n="b.m1p7">一是用成纯倒计时：打断不管、结束不记，番茄沦为一件计时道具。二是贪多：第一天雄心勃勃定十二颗，下午就崩了，第二天连方法一起放弃。三是把它当考勤：只数数量不看内容——四颗回邮件的番茄和四颗写方案的番茄，不是一个东西。四是休息时间刷手机：大脑没有得到真正的空档，下一颗的质量自然往下掉，最后归结为「这方法对我没用」。</p>
+      <p data-i18n="b.m1p8">上手建议从每天 4 颗开始，别贪多。计时用什么无所谓，厨房计时器反而最正宗。坚持一两周，你会得到一个比任何效率技巧都值钱的数字：自己的真实容量——「一天到底能做几颗」。有了它，排日程就不再是许愿：答应别人「周五给」之前，你先知道周四之前该排几颗。</p>
+      <ul class="post-refs">
+        <li data-i18n="b.m1r1">Francesco Cirillo，《The Pomodoro Technique: The Acclaimed Time-Management System》（初版 2006）</li>
+        <li data-i18n="b.m1r2">Wikipedia: <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique" target="_blank" rel="noopener">Pomodoro Technique</a></li>
+      </ul>
+    </article>
+
+    <article class="post reveal" id="post-m2">
+      <div class="post-head"><span class="tag-pill" data-i18n="b.mtag">方法论</span><span class="post-date">2026-09-02</span></div>
+      <h2 data-i18n="b.m2t">四象限法则实操：重要不紧急的事为什么总被拖垮</h2>
+      <p data-i18n="b.m2p1">1954 年，艾森豪威尔在伊利诺伊州埃文斯顿的世界教会联合会大会上，引用了一位大学校长送他的话。这句话精准说出了他作为盟军统帅和总统都逃不开的困境，后来被引用了无数次：</p>
+      <blockquote class="post-quote"><span data-i18n="b.m2q">「我有两种问题：紧急的，和重要的。紧急的问题往往不重要，重要的问题从来不紧急。」</span><cite data-i18n="b.m2qc">— Dwight D. Eisenhower 引 J. Roscoe Miller，1954</cite></blockquote>
+      <p data-i18n="b.m2p2">这句话在三十多年后被斯蒂芬·柯维发展成了著名的四象限矩阵：按「重要 / 紧急」两个轴把任务分进四格。方法简单到五分钟就能学会，但先把它讲完整——四个格其实是四种不同的动作：</p>
+      <h3 data-i18n="b.m2h1">四格，四种动作</h3>
+      <p data-i18n="b.m2p3">第一格「重要且紧急」——危机、临期交付、突发的要紧事。这一格的动作是处理，不需要纠结，但优秀和不优秀的人的区别在于：优秀的人这一格是满的但稳定，不优秀的人整天住在这里。第二格「重要不紧急」——健身、复盘、深度学习、关系维护、重要但不迫的项目。这一格的动作是排程：把它们当成约会写进日程。第三格「紧急不重要」——大多数消息、别人的临时求助、可开可不开的会。这一格的动作是缩手：能委托的委托，能拒绝的拒绝，能压缩成一封消息的别开成会。第四格「两者都不占」——无意识的刷手机、纯消磨。这一格的动作是删除，不用愧疚，删就是了。</p>
+      <p data-i18n="b.m2p4">很多人对四象限的理解止于「分类」，但真正的收益发生在格与格之间：把第三格推掉、第四格删掉，省下来的不是「空闲」，而是可以成块喂给第二格的时间。分类只是手段，腾时间是目的。</p>
+      <h3 data-i18n="b.m2h2">为什么「重要不紧急」总是输</h3>
+      <p data-i18n="b.m2p5">因为第二象限带着两重与生俱来的劣势。其一，它没有截止日期。紧急的事自带「现在就要」的压迫感，重要的事只有「迟早要做」的模糊感——没有人会在周五下午通知你「下周该复盘了」。其二，它的回报是延迟的。回完一条消息立刻清净，跑完一次步要几周后才见体能变化；第三格的完成感是即时的，第二象限的收益是慢性的。一天里靠感觉驱动做事的人，天然偏向紧急——这不是性格缺陷，是所有人的默认设置。所以它只能靠结构保护：写进日程、像约会一样不可挪动，而不能指望「有空再做」——那一天永远不会有空。</p>
+      <h3 data-i18n="b.m2h3">两个隐蔽的错法</h3>
+      <p data-i18n="b.m2p6">误区一：把整理四象限本身当成工作。画格子花掉半小时，任务在格间挪来挪去，真正的第二象限一条没动——矩阵是判断工具，不是劳动。误区二：以为四象限是每天要画的表格。柯维的本意是每周看一眼，而不是每天分类：这周的时间，真的落在第二格了吗？分类花掉的时间应该以分钟计，超过分钟的分类就是在逃避真正的任务。</p>
+      <p data-i18n="b.m2p7">实操只有两条纪律：每天早上花两分钟，把今日任务按重要 / 紧急过一遍——纸、表格或任何工具都行；然后保证每天都留出一段属于第二象限的时间，像对待约会一样写进日程。给自己做一个一周实验：只记录一件事——每天那段「第二象限时间」有没有兑现。一周后回看，答案通常比想象中刺眼，也正因为刺眼，它才成了改变的开端。检验标准只有一个：本周结束回头看，时间真的花在第二象限了吗？</p>
+      <ul class="post-refs">
+        <li data-i18n="b.m2r1">艾森豪威尔总统图书馆对这句引语的出处考证：<a href="https://www.eisenhowerlibrary.gov/" target="_blank" rel="noopener">eisenhowerlibrary.gov</a></li>
+        <li data-i18n="b.m2r2">Stephen R. Covey，《The 7 Habits of Highly Effective People》（1989），第三习惯「要事第一」</li>
+      </ul>
+    </article>
+
+    <article class="post reveal" id="post-m3">
+      <div class="post-head"><span class="tag-pill" data-i18n="b.mtag">方法论</span><span class="post-date">2026-09-02</span></div>
+      <h2 data-i18n="b.m3t">周复盘怎么写：三行就够了</h2>
+      <p data-i18n="b.m3p1">复盘不是什么新发明。软件行业有个延续几十年的仪式叫「回顾会」：每个迭代结束，整个团队停下来回答三个问题——什么做得好，什么做得不好，下次改什么。规则只有一条：讨论必须落到「下次要改变的那一件事」上，否则不散会。发起这件事的 Norman Kerth 在《Project Retrospectives》里立过一条后来被无数团队写在墙上的原则：</p>
+      <blockquote class="post-quote"><span data-i18n="b.m3q">「无论回顾中发现了什么，我们都相信：以当时所知、所能、所处的局面，每个人已经尽了全力。」</span><cite data-i18n="b.m3qc">— Norman Kerth，Project Retrospectives（2001）</cite></blockquote>
+      <h3 data-i18n="b.m3h1">两种最常见的死法</h3>
+      <p data-i18n="b.m3p3">个人周复盘的死法与之同源。第一种死成打卡数字：「完成 23 项，连续 5 天」。数字的问题不在假，而在没有对照、没有出口——它记录了「做了多少」，却不回答「所以呢」。第二种死成检讨书：「这周又拖延了，状态很差，下周要更自律」。检讨书的问题在方向反了：复盘应该指向系统——流程、环境、习惯哪里可以调；而不是指向人格——我懒、我拖延。指责系统的复盘能写出改动，指责自己的复盘只能写出愧疚，愧疚撑不过周二。两种死法共享同一个病根：它们都绕开了复盘真正要回答的三个问题。</p>
+      <h3 data-i18n="b.m3h2">三个问题，一层比一层深</h3>
+      <p data-i18n="b.m3p4">第一问是事实层：这周实际发生了什么？要求写事实、不写形容词——「方案写了三颗番茄，中断两次」是事实，「这周效率不高」是感觉。感觉无法改进，事实才能。第二问是对比层：和之前比，是更好还是更差？这一问藏着一个容易被忽略的前提——基线。没有基线，「好不好」全凭当天的情绪：状态差的时候看什么都是退步，状态好的时候处处是进步。基线不需要复杂，上周的完成量、上个月的专注时长，任何稳定的参照都行，重点是从「和自己比」开始，而不是和任何人比。第三问是行动层：下周只改变哪一件事？只写一件，而且要具体到可执行——「下周更专注」不是改动，「下周每天上午十点前不开邮箱、先做一小时最重要的任务」才是。复盘的价值不在仪式感，全在最后这一行。</p>
+      <h3 data-i18n="b.m3h3">一页纸长什么样</h3>
+      <p data-i18n="b.m3p5">举个虚构的例子。小周周五下午四点做复盘，翻完这周的记录，写下三行：这周——方案写完两版（预估四颗番茄，实际用了五颗），健身两次，周三下午被三个临时会议切碎；对比——专注度比上周好（中断从五次降到两次），健身少了一次，周三的会占了原定的深度工作时间；下周只改一件事——周三下午设为无会议时段，深活不挪窝。三行，不超过五分钟。周一早上，他把「周三下午无会议」写进日历——到这里，一次复盘才算闭环。至于那「一件事」下周有没有做到？它就是下周复盘的第一问。</p>
+      <p data-i18n="b.m3p6">「写下来真的有用吗」，有人认真研究过。哈佛商学院的 Di Stefano 等人做过一组实验：一组员工每天下班前花 15 分钟反思当天学到的东西，另一组照常多干 15 分钟。结果反思组随后的绩效高出两成多——研究者把它叫作「以思促学」：同样的经历，多看一眼的人学到了更多。</p>
+      <p data-i18n="b.m3p7">落地只要一页纸：每周固定一个时间，花 15 分钟翻一遍这周的记录，写下三行——这周实际做了什么、和之前比怎么样、下周只改哪一件事。两个提醒：写超过一页通常说明在写作而不是复盘；翻不出这周的事实记录，复盘就会退化成凭感觉打分——所以唯一的要求是事实来自真实记录，纸笔、表格还是应用，都不重要。</p>
+      <ul class="post-refs">
+        <li data-i18n="b.m3r1">Norman L. Kerth，《Project Retrospectives: A Handbook for Team Reviews》（2001）</li>
+        <li data-i18n="b.m3r2">Di Stefano, Gino, Pisano & Staats，《Learning by Thinking: How Reflection Aids Performance》（Harvard Business School Working Paper, 2014）</li>
+      </ul>
+    </article>
+
+    <article class="post reveal" id="post-m4">
+      <div class="post-head"><span class="tag-pill" data-i18n="b.mtag">方法论</span><span class="post-date">2026-09-02</span></div>
+      <h2 data-i18n="b.m4t">时间轴复盘：这一天到底去哪了</h2>
+      <p data-i18n="b.m4p1">「这一天怎么就过去了？」——这个问题人类已经问了自己一个世纪。早在 1930 年代，研究者就在用「时间日记」回答它：请人们像记账一样，把每段时间花在了哪里如实写下。心理学家米哈里·契克森米哈赖在 1970 年代把这条路走到了极端——他给受试者配发会随机响铃的提醒器，铃一响就记录「此刻在做什么、感觉如何」。靠着这套后来被称为「经验取样法」的手段，他发现了那个著名的概念：心流。</p>
+      <p data-i18n="b.m4p2">这条研究传统留下一句朴素的经验：回忆靠不住，记录靠得住。回忆会被感觉改写——忙乱的一天事后想起来觉得充实，摸鱼的一天觉得漫长而空洞；而事实上忙乱的那天可能什么都没推进。只有当天留下的记录不会说谎。这也是时间轴复盘的全部原理：把一天还原成一条可见的轨道，每一分钟都在上面，好与坏让轨道自己说话，不给回忆辩解的机会。</p>
+      <h3 data-i18n="b.m4h1">把一天铺在一条轨道上</h3>
+      <p data-i18n="b.m4p3">做法不难：把一天铺成 24 小时的时间轴，左边铺事实——每段专注按任务分类着色，做了什么一目了然；右边铺计划——这天原本打算怎么过。计划和事实并排放着，偏差不需要分析，看一眼就有数：日程上写了「上午两小时深度工作」，轨道上却只有 25 分钟落了色，落差就是问题本身。应用外的会议、通勤、临时插进来的事，事后补录几笔，轨道不会缺块——缺块的轨道只会再次放大感觉的发言权。</p>
+      <h3 data-i18n="b.m4h2">坚持两周，你会看到三种模式</h3>
+      <p data-i18n="b.m4p4">第一种是高效时段。多数人的专注色块明显集中在一天里的某一两个小时——而你未必猜得到是哪两个。看到自己的轨道之后，把最重要的任务往那个时段放，是所有调整里回报最高的一步。第二种是碎片化：下午的轨道被会议切成几段，每段之间只塞得下消息和摸鱼——问题不在会议本身，在于碎片之间原本可以完整的时间被你随手交给了最不重要的事。第三种是虚假忙碌：感觉忙到飞起的一天，轨道上安静得很——情绪和事实对不上账的时刻，恰恰是复盘最有价值的时刻，它逼你回答「那种忙，到底忙的是什么」。</p>
+      <p data-i18n="b.m4p5">时间管理作家 Laura Vanderkam 让读者记录时间日志时常说：人们以为自己知道时间去哪了，直到看见记录——大多数时候，两者相差很远。相差的那一段，就是我们凭感觉过日子所付出的价格。</p>
+      <p data-i18n="b.m4p6">最后是态度：轨道不是给自己打分的考卷。Kerth 那条回顾会原则在这里同样成立——以当时所知、所能，你已经尽了力。看见轨道的意义不是自责「又浪费了一天」，而是下一次把色块排得更接近自己想要的样子。看得见，才管理得了；先看得见，其余都好谈。</p>
+      <ul class="post-refs">
+        <li data-i18n="b.m4r1">Csikszentmihalyi & Larson，《Validating the Experience Sampling Method》（1987）</li>
+        <li data-i18n="b.m4r2">Laura Vanderkam，《168 Hours: You Have More Time Than You Think》（2010）</li>
+      </ul>
+    </article>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html">
+          <img src="assets/img/logo.png" alt="" width="34" height="34">
+          <span data-i18n-html="brand.name">拾事<small>PICKDONE</small></span>
+        </a>
+        <p data-i18n="foot.tag">本地离线优先的待办 · 日程 · 番茄专注桌面应用。你的数据只属于你。</p>
+      </div>
+      <div class="foot-col">
+        <h5 data-i18n="foot.c1">产品</h5>
+        <a href="index.html#pillars" data-i18n="nav.features">功能</a>
+        <a href="index.html#download" data-i18n="nav.download">免费下载</a>
+        <a href="docs.html" data-i18n="nav.docs">文档</a>
+        <a href="blog.html" data-i18n="nav.blog">更新</a>
+      </div>
+      <div class="foot-col">
+        <h5>GitHub</h5>
+        <a href="https://github.com/ardss/pickdone" target="_blank" rel="noopener">ardss/pickdone</a>
+        <a href="https://github.com/ardss/pickdone/releases" target="_blank" rel="noopener" data-i18n="foot.c2a">版本发布</a>
+        <a href="https://github.com/ardss/pickdone/issues" target="_blank" rel="noopener" data-i18n="foot.c2b">问题反馈</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener" data-i18n="foot.c2c">参与贡献</a>
+      </div>
+      <div class="foot-col">
+        <h5 data-i18n="foot.c3">协议</h5>
+        <a href="https://github.com/ardss/pickdone/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/SECURITY.md" target="_blank" rel="noopener" data-i18n="foot.c3a">安全说明</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/CHANGELOG.md" target="_blank" rel="noopener" data-i18n="foot.c3b">更新日志</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/todo-app/THIRD-PARTY-NOTICES.md" target="_blank" rel="noopener" data-i18n="foot.c3d">素材署名</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 ardss · 拾事 PickDone</span>
+      <span class="mono" data-i18n="foot.made">用 Electron + Vue3 打造 · 数据留在你的电脑里</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js?v=20260902j"></script>
+</body>
+</html>

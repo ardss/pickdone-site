@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>使用指南 — 拾事 PickDone</title>
+<meta name="description" content="拾事 PickDone 使用指南：任务管理、分类标签过滤器、日程与重复、番茄专注、数据复盘、桌面体验。">
+<link rel="icon" type="image/png" href="assets/img/logo-64.png">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html" aria-label="PickDone 首页">
+      <img src="assets/img/logo.png" alt="" width="34" height="34">
+      <span data-i18n-html="brand.name">拾事<small>PICKDONE</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="index.html#pillars" data-i18n="nav.features">功能</a>
+      <a href="index.html#cli" data-i18n="nav.cli">AI CLI</a>
+      <a href="docs.html" data-i18n="nav.docs">文档</a>
+      <a href="blog.html" data-i18n="nav.blog">更新</a>
+      <a href="index.html#compare" data-i18n="nav.compare">对比</a>
+      <a href="faq.html" data-i18n="nav.faq">常见问题</a>
+    </nav>
+    <div class="nav-acts">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" id="langZh" class="on" aria-pressed="true">中文</button>
+        <button type="button" id="langEn" aria-pressed="false">EN</button>
+      </div>
+      <a class="gh-link" href="https://github.com/ardss/pickdone" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="21" height="21" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      </a>
+      <a class="btn btn-primary btn-sm" href="index.html#download" data-i18n="nav.download">免费下载</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <a class="back-home" href="index.html" data-i18n="d.back">← 返回首页</a>
+      <h1 data-i18n="dt.h1">数据与安全</h1>
+      <p class="lede" data-i18n="dt.lede">拾事没有服务器。这一页讲清楚你的数据在哪、怎么被保护、怎么带走。</p>
+    </div>
+  </section>
+
+  <div class="wrap docs-layout">
+    <aside class="docs-side" aria-label="文档目录">
+      <a href="docs.html" data-i18n="dc.n1">入门</a>
+      <a href="guide.html" data-i18n="dc.n2">使用指南</a>
+      <a href="cli.html" data-i18n="dc.n3">CLI 参考</a>
+      <a href="data.html" class="on" data-i18n="dc.n4">数据与安全</a>
+      <a href="faq.html" data-i18n="dc.n5">常见问题</a>
+    </aside>
+
+    <div>
+      <section class="doc-sec">
+        <h2 data-i18n="dt.store.h">存储位置</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n="dt.store.p">全部数据落在一个本机加密数据库文件（SQLite，WAL 模式）与自动备份目录中，位于系统应用数据目录下：</p>
+        <p><span class="path">%APPDATA%/todo-list-app/todos.db</span></p>
+        <p style="margin-top:8px"><span class="path">%APPDATA%/todo-list-app/backups/</span></p>
+        <p style="margin-top:8px"><span class="path">%APPDATA%/todo-list-app/cli-audit.jsonl</span></p>
+        <p class="note" data-i18n="dt.store.note">加密存储意味着即便有人拿到这个文件，也无法直接读出你的任务内容。</p>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="dt.backup.h">备份体系</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n="dt.backup.p1">应用自动备份，无需配置：内容去重（相同内容不重复占空间）+ 分级保留（近期备份更密、久远备份更稀），危险操作（如清空回收站）执行前还会先打事件快照。</p>
+        <div class="doc-sub"><h4 data-i18n="dt.backup.h2">从备份恢复</h4>
+          <p data-i18n="dt.backup.s1">打开 设置 → 备份；</p>
+          <p data-i18n="dt.backup.s2">选择一个备份点（列表带时间与说明）；</p>
+          <p data-i18n="dt.backup.s3">一键恢复，当前数据会先被再次快照，不怕恢复错。</p>
+        </div>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="dt.migrate.h">换机与重装</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n="dt.migrate.p">备份文件即完整数据：把数据目录（含数据库与 backups/）拷到新机器同位置，或在新机器上用「从备份恢复」指向拷过来的备份，即完成迁移。重装系统、卸载重装同理——卸载应用从不删除数据目录。</p>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="dt.export.h">导出</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n="dt.export.p">任务数据可导出 Excel 表格与 PDF；统计与日历支持生成分享长图。导出的文件属于你，想放哪放哪。</p>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="dt.enc.h">加密是怎么做的</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n="dt.enc.p">数据库使用 SQLCipher 系加密驱动（better-sqlite3-multiple-ciphers）整库加密；密钥文件 <span class="path">db.key</span> 与数据库放在同一目录，随备份/迁移一起走，不需要你记密码。</p>
+        <p class="note" data-i18n="dt.enc.p2">诚实边界：这能防住「拿到单个数据库文件」的读取；如果攻击者已经能读取你的整个用户目录，密钥也在一起，这层不设防（系统级方案在评估中）。我们把边界写出来，是因为加密不是魔法。</p>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="dt.net.h">网络行为声明</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n="dt.net.p">拾事没有账号体系与云端服务器，正常运行全程不联网。唯一可能的外部请求是检查应用更新（访问 GitHub Releases），可在设置中改为手动检查。</p>
+        <p class="note" data-i18n="dt.net.p2">不信？可以自己验证：退出应用后用系统命令查看网络连接（如 netstat），或在防火墙里拦掉拾事后照常用；源码全部公开，联网调用点可以直接搜。</p>
+      </section>
+    </div>
+  </div>
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html">
+          <img src="assets/img/logo.png" alt="" width="34" height="34">
+          <span data-i18n-html="brand.name">拾事<small>PICKDONE</small></span>
+        </a>
+        <p data-i18n="foot.tag">本地离线优先的待办 · 日程 · 番茄专注桌面应用。你的数据只属于你。</p>
+      </div>
+      <div class="foot-col">
+        <h5 data-i18n="foot.c1">产品</h5>
+        <a href="index.html#pillars" data-i18n="nav.features">功能</a>
+        <a href="index.html#download" data-i18n="nav.download">免费下载</a>
+        <a href="docs.html" data-i18n="nav.docs">文档</a>
+        <a href="blog.html" data-i18n="nav.blog">更新</a>
+      </div>
+      <div class="foot-col">
+        <h5>GitHub</h5>
+        <a href="https://github.com/ardss/pickdone" target="_blank" rel="noopener">ardss/pickdone</a>
+        <a href="https://github.com/ardss/pickdone/releases" target="_blank" rel="noopener" data-i18n="foot.c2a">版本发布</a>
+        <a href="https://github.com/ardss/pickdone/issues" target="_blank" rel="noopener" data-i18n="foot.c2b">问题反馈</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener" data-i18n="foot.c2c">参与贡献</a>
+      </div>
+      <div class="foot-col">
+        <h5 data-i18n="foot.c3">协议</h5>
+        <a href="https://github.com/ardss/pickdone/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/SECURITY.md" target="_blank" rel="noopener" data-i18n="foot.c3a">安全说明</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/CHANGELOG.md" target="_blank" rel="noopener" data-i18n="foot.c3b">更新日志</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/todo-app/THIRD-PARTY-NOTICES.md" target="_blank" rel="noopener" data-i18n="foot.c3d">素材署名</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 ardss · 拾事 PickDone</span>
+      <span class="mono" data-i18n="foot.made">用 Electron + Vue3 打造 · 数据留在你的电脑里</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

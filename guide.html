@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>使用指南 — 拾事 PickDone</title>
+<meta name="description" content="拾事 PickDone 使用指南：任务管理、分类标签过滤器、日程与重复、番茄专注、数据复盘、桌面体验。">
+<link rel="icon" type="image/png" href="assets/img/logo-64.png">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html" aria-label="PickDone 首页">
+      <img src="assets/img/logo.png" alt="" width="34" height="34">
+      <span data-i18n-html="brand.name">拾事<small>PICKDONE</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="index.html#pillars" data-i18n="nav.features">功能</a>
+      <a href="index.html#cli" data-i18n="nav.cli">AI CLI</a>
+      <a href="docs.html" data-i18n="nav.docs">文档</a>
+      <a href="blog.html" data-i18n="nav.blog">更新</a>
+      <a href="index.html#compare" data-i18n="nav.compare">对比</a>
+      <a href="faq.html" data-i18n="nav.faq">常见问题</a>
+    </nav>
+    <div class="nav-acts">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" id="langZh" class="on" aria-pressed="true">中文</button>
+        <button type="button" id="langEn" aria-pressed="false">EN</button>
+      </div>
+      <a class="gh-link" href="https://github.com/ardss/pickdone" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="21" height="21" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      </a>
+      <a class="btn btn-primary btn-sm" href="index.html#download" data-i18n="nav.download">免费下载</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <a class="back-home" href="index.html" data-i18n="d.back">← 返回首页</a>
+      <h1 data-i18n="gd.h1">使用指南</h1>
+      <p class="lede" data-i18n="gd.lede">按目标组织的操作手册：找到你想做的事，照着步骤做即可。</p>
+    </div>
+  </section>
+
+  <div class="wrap docs-layout">
+    <aside class="docs-side" aria-label="文档目录">
+      <a href="docs.html" data-i18n="dc.n1">入门</a>
+      <a href="guide.html" class="on" data-i18n="dc.n2">使用指南</a>
+      <a href="cli.html" data-i18n="dc.n3">CLI 参考</a>
+      <a href="data.html" data-i18n="dc.n4">数据与安全</a>
+      <a href="faq.html" data-i18n="dc.n5">常见问题</a>
+    </aside>
+
+    <div>
+      <section class="doc-sec">
+        <h2 data-i18n="gd.tasks.h">任务管理</h2>
+        <div class="doc-sub"><h4 data-i18n="gd.tasks.createt">创建与编辑</h4><p data-i18n="gd.tasks.createp">顶部快速输入条回车即建；点击任务打开编辑面板，可改标题、描述、日期、分类、优先级（高 / 低）与截止时间。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.tasks.subt">子任务</h4><p data-i18n="gd.tasks.subp">在编辑面板里拆步骤，勾选进度自动显示「已完成 / 总数」；完成父任务默认连带勾选全部子任务。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.tasks.priot">优先级与四象限</h4><p data-i18n="gd.tasks.priop">优先级分高 / 低两档，与四象限矩阵的「重要」双向打通；今日页可在列表和四象限之间一键切换。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.tasks.movet">改期与排序</h4><p data-i18n="gd.tasks.movep">在日历里拖任务到目标日期即改期；今日清单支持手动排序，顺序即刻生效。</p></div>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="gd.org.h">组织：分类、标签与过滤器</h2>
+        <div class="doc-sub"><h4 data-i18n="gd.org.catt">分类</h4><p data-i18n="gd.org.catp">侧边栏管理分类，每条任务归入一个分类，分类色会贯穿时间轨与复盘图。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.org.tagt">标签</h4><p data-i18n="gd.org.tagp">在描述里写 #标签 即自动识别，侧边栏按标签聚合统计。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.org.filtert">过滤器</h4><p data-i18n="gd.org.filterp">把常用筛选条件（如「今天到期且高优先级」）存成过滤器，挂在侧边栏一点直达。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.org.inboxt">待办箱与已达成</h4><p data-i18n="gd.org.inboxp">没有日期的任务都在待办箱；已完成的按完成时间进入「已达成」，随时回看自己的积累。</p></div>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="gd.sched.h">日程与重复</h2>
+        <div class="doc-sub"><h4 data-i18n="gd.sched.calt">月历视图</h4><p data-i18n="gd.sched.calp">月 / 周 / 时间块三种视图；点击「今天」回到当天；悬停截断的事件可看完整标题。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.sched.dragt">拖拽改期</h4><p data-i18n="gd.sched.dragp">把任务拖到任意日期格子即完成改期，周 / 月视图通用。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.sched.repeatt">重复任务</h4><p data-i18n="gd.sched.repeatp">支持天 / 周 / 月 / 年组合，可按农历重复（如生日、节气），可设置跳过节假日；完成当前实例后自动续期下一个。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.sched.remindt">多重提醒</h4><p data-i18n="gd.sched.remindp">一个任务可以设多个提醒时间点（如提前一天 + 当天早上），互不覆盖。</p></div>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="gd.focus.h">番茄专注</h2>
+        <div class="doc-sub"><h4 data-i18n="gd.focus.startt">开始与轮转</h4><p data-i18n="gd.focus.startp">点击任务旁的番茄按钮开始专注，结束后自动进入休息并轮转；专注与休息时长都可以在设置里调整。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.focus.floatt">悬浮窗与白噪音</h4><p data-i18n="gd.focus.floatp">专注时悬浮窗缩到屏幕角落显示倒计时与任务名；内置 10 类真实录音白噪音与完成提示音，都可在设置试听更换。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.focus.giveupt">放弃与补录</h4><p data-i18n="gd.focus.giveupp">中途放弃就地点「放弃」并可选记原因——专注过的分钟数仍会计入账本；忘记开番茄了？右键任务可以直接补录一段专注。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.focus.timelinet">24 小时时间轴</h4><p data-i18n="gd.focus.timelinep">今日页左侧的时间轨记录每一段专注与休息（休息为橙色），支持点击回看与编辑关联任务。</p></div>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="gd.rev.h">数据复盘</h2>
+        <div class="doc-sub"><h4 data-i18n="gd.rev.ranget">切换周期</h4><p data-i18n="gd.rev.rangep">本周 / 上周 / 本月 / 上月 / 近 7 天 / 近 30 天一键切换，也支持自定义日期区间（最长 366 天）。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.rev.storyt">叙事周报</h4><p data-i18n="gd.rev.storyp">每次复盘先给你一段基于个人基线的总结：完成多少、专注多久、比平时更投入还是松懈——先读故事，再看数字。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.rev.heat">热力图与成就</h4><p data-i18n="gd.rev.heatp">GitHub 风格活跃热力图记录每一次完成；里程碑与连续坚持会点亮成就徽章。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.rev.share">分享卡片</h4><p data-i18n="gd.rev.sharep">一键把本周成绩生成分享长图，可以发到社交媒体留存。</p></div>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="gd.desk.h">桌面体验</h2>
+        <div class="doc-sub"><h4 data-i18n="gd.desk.shortcut">全局快捷键</h4><p data-i18n="gd.desk.shortcutp">任何界面用快捷键唤起迷你输入条，想到什么一秒记下；键位可在设置中查看与修改。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.desk.widget">桌面小组件</h4><p data-i18n="gd.desk.widgetp">半透明日历、待办卡可以钉在桌面上，回到桌面就能看到今天的安排，无需打开主窗口。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gd.desk.dark">深色模式与双语</h4><p data-i18n="gd.desk.darkp">跟随系统或手动切换深浅色；界面语言中英一键切换，数据与设置互不影响。</p></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html">
+          <img src="assets/img/logo.png" alt="" width="34" height="34">
+          <span data-i18n-html="brand.name">拾事<small>PICKDONE</small></span>
+        </a>
+        <p data-i18n="foot.tag">本地离线优先的待办 · 日程 · 番茄专注桌面应用。你的数据只属于你。</p>
+      </div>
+      <div class="foot-col">
+        <h5 data-i18n="foot.c1">产品</h5>
+        <a href="index.html#pillars" data-i18n="nav.features">功能</a>
+        <a href="index.html#download" data-i18n="nav.download">免费下载</a>
+        <a href="docs.html" data-i18n="nav.docs">文档</a>
+        <a href="blog.html" data-i18n="nav.blog">更新</a>
+      </div>
+      <div class="foot-col">
+        <h5>GitHub</h5>
+        <a href="https://github.com/ardss/pickdone" target="_blank" rel="noopener">ardss/pickdone</a>
+        <a href="https://github.com/ardss/pickdone/releases" target="_blank" rel="noopener" data-i18n="foot.c2a">版本发布</a>
+        <a href="https://github.com/ardss/pickdone/issues" target="_blank" rel="noopener" data-i18n="foot.c2b">问题反馈</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener" data-i18n="foot.c2c">参与贡献</a>
+      </div>
+      <div class="foot-col">
+        <h5 data-i18n="foot.c3">协议</h5>
+        <a href="https://github.com/ardss/pickdone/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/SECURITY.md" target="_blank" rel="noopener" data-i18n="foot.c3a">安全说明</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/CHANGELOG.md" target="_blank" rel="noopener" data-i18n="foot.c3b">更新日志</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/todo-app/THIRD-PARTY-NOTICES.md" target="_blank" rel="noopener" data-i18n="foot.c3d">素材署名</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 ardss · 拾事 PickDone</span>
+      <span class="mono" data-i18n="foot.made">用 Electron + Vue3 打造 · 数据留在你的电脑里</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

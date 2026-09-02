@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文档 · 拾事 PickDone</title>
+<meta name="description" content="拾事 PickDone 文档：安装、快速上手、界面导览，以及使用指南、CLI 参考、数据与安全、常见问题。">
+<link rel="icon" type="image/png" href="assets/img/logo-64.png">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html" aria-label="PickDone 首页">
+      <img src="assets/img/logo.png" alt="" width="34" height="34">
+      <span data-i18n-html="brand.name">拾事<small>PICKDONE</small></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="index.html#pillars" data-i18n="nav.features">功能</a>
+      <a href="index.html#cli" data-i18n="nav.cli">AI CLI</a>
+      <a href="docs.html" data-i18n="nav.docs">文档</a>
+      <a href="blog.html" data-i18n="nav.blog">更新</a>
+      <a href="index.html#compare" data-i18n="nav.compare">对比</a>
+      <a href="faq.html" data-i18n="nav.faq">常见问题</a>
+    </nav>
+    <div class="nav-acts">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" id="langZh" class="on" aria-pressed="true">中文</button>
+        <button type="button" id="langEn" aria-pressed="false">EN</button>
+      </div>
+      <a class="gh-link" href="https://github.com/ardss/pickdone" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="21" height="21" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      </a>
+      <a class="btn btn-primary btn-sm" href="index.html#download" data-i18n="nav.download">免费下载</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <a class="back-home" href="index.html" data-i18n="d.back">← 返回首页</a>
+      <h1 data-i18n="gs.h1">拾事文档</h1>
+      <p class="lede" data-i18n="gs.lede">从安装到进阶。按「教程 → 指南 → 参考 → 阐释」组织，每一页只回答一个问题。</p>
+    </div>
+  </section>
+
+  <div class="wrap docs-layout">
+    <aside class="docs-side" aria-label="文档目录">
+      <a href="docs.html" class="on" data-i18n="dc.n1">入门</a>
+      <a href="guide.html" data-i18n="dc.n2">使用指南</a>
+      <a href="cli.html" data-i18n="dc.n3">CLI 参考</a>
+      <a href="data.html" data-i18n="dc.n4">数据与安全</a>
+      <a href="faq.html" data-i18n="dc.n5">常见问题</a>
+    </aside>
+
+    <div>
+      <section class="doc-sec">
+        <h2 data-i18n="gs.install.h">安装</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n-html="gs.install.p">拾事提供两个版本：<b>安装版</b>（PickDone-Setup，标准安装，支持应用内自动更新）与<b>便携版</b>（PickDone-Portable，单文件免安装，拷到哪都能跑，更新需手动重新下载）。两者功能完全一致。</p>
+        <p class="note" data-i18n="gs.install.req">系统要求：Windows 10 / 11（64 位）。卸载应用不会删除你的数据目录。</p>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="gs.tut.h">快速上手：你的第一个番茄</h2>
+        <div class="doc-step"><span class="n">1</span><div><h4 data-i18n="gs.tut.s1t">1 · 创建一个任务</h4><p data-i18n="gs.tut.s1p">在顶部输入框写下要做的事，按回车。可以在编辑面板里补充描述、设优先级、加子任务、估计番茄数——也可以什么都不填，先记下来再说。</p></div></div>
+        <div class="doc-step"><span class="n">2</span><div><h4 data-i18n="gs.tut.s2t">2 · 把它排到今天</h4><p data-i18n="gs.tut.s2p">新任务默认进入待办箱；把它拖到日历的某一天，或在编辑面板里设日期。到了「今日待办」页面就能看到它。</p></div></div>
+        <div class="doc-step"><span class="n">3</span><div><h4 data-i18n="gs.tut.s3t">3 · 开始专注</h4><p data-i18n="gs.tut.s3p">点击任务右侧的番茄按钮开始专注：悬浮窗缩到角落报进度，可以配上白噪音。想提前结束？就地放弃并记下原因，专注过的分钟数照样入账。</p></div></div>
+        <div class="doc-step"><span class="n">4</span><div><h4 data-i18n="gs.tut.s4t">4 · 完成并撤销</h4><p data-i18n="gs.tut.s4p">做完点勾即可完成；5 秒内发现点错了？底部弹出通知里点「撤销」，或按 Ctrl+Z。</p></div></div>
+        <div class="doc-step"><span class="n">5</span><div><h4 data-i18n="gs.tut.s5t">5 · 看你的复盘</h4><p data-i18n="gs.tut.s5p">进入「数据复盘」：一段叙事周报告诉你这周怎么样，热力图上会多出一格颜色。这就是拾事的完整闭环：计划 → 专注 → 复盘。</p></div></div>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="gs.ui.h">界面导览</h2>
+        <div class="doc-sub"><h4 data-i18n="gs.ui.today">今日待办</h4><p data-i18n="gs.ui.todayp">今天的主场：昨日未完成、今天与已完成三组；左侧是 24 小时时间轨，专注记录一眼可见。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gs.ui.calendar">日程概览</h4><p data-i18n="gs.ui.calendarp">月 / 周 / 时间块月历，农历与节假日齐全，拖拽改期。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gs.ui.todobox">待办箱</h4><p data-i18n="gs.ui.todoboxp">所有没有排期的任务住在这里，等你有空再把它们安排进具体的日子。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gs.ui.done">已达成</h4><p data-i18n="gs.ui.donep">按完成时间分组的成就墙，坚持了多久一目了然。</p></div>
+        <div class="doc-sub"><h4 data-i18n="gs.ui.insights">数据复盘</h4><p data-i18n="gs.ui.insightsp">叙事周报、热力图、成就徽章与分享卡片，全部基于你自己的数据。</p></div>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="gs.map.h">继续阅读</h2>
+        <div class="cards-grid">
+          <a class="card-link" href="guide.html"><h4 data-i18n="gs.map.guide">使用指南</h4><p data-i18n="gs.map.guidep">按任务找做法：组织、重复、番茄、复盘、桌面体验。</p></a>
+          <a class="card-link" href="cli.html"><h4 data-i18n="gs.map.cli">CLI 参考</h4><p data-i18n="gs.map.clip">全部命令与约定，给人和给 AI 的完整手册。</p></a>
+          <a class="card-link" href="data.html"><h4 data-i18n="gs.map.data">数据与安全</h4><p data-i18n="gs.map.datap">数据存在哪、怎么备份、怎么迁移、会不会联网。</p></a>
+          <a class="card-link" href="faq.html"><h4 data-i18n="gs.map.faq">常见问题</h4><p data-i18n="gs.map.faqp">使用疑问与技术排查，以及怎么反馈问题。</p></a>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html">
+          <img src="assets/img/logo.png" alt="" width="34" height="34">
+          <span data-i18n-html="brand.name">拾事<small>PICKDONE</small></span>
+        </a>
+        <p data-i18n="foot.tag">本地离线优先的待办 · 日程 · 番茄专注桌面应用。你的数据只属于你。</p>
+      </div>
+      <div class="foot-col">
+        <h5 data-i18n="foot.c1">产品</h5>
+        <a href="index.html#pillars" data-i18n="nav.features">功能</a>
+        <a href="index.html#download" data-i18n="nav.download">免费下载</a>
+        <a href="docs.html" data-i18n="nav.docs">文档</a>
+        <a href="blog.html" data-i18n="nav.blog">更新</a>
+      </div>
+      <div class="foot-col">
+        <h5>GitHub</h5>
+        <a href="https://github.com/ardss/pickdone" target="_blank" rel="noopener">ardss/pickdone</a>
+        <a href="https://github.com/ardss/pickdone/releases" target="_blank" rel="noopener" data-i18n="foot.c2a">版本发布</a>
+        <a href="https://github.com/ardss/pickdone/issues" target="_blank" rel="noopener" data-i18n="foot.c2b">问题反馈</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener" data-i18n="foot.c2c">参与贡献</a>
+      </div>
+      <div class="foot-col">
+        <h5 data-i18n="foot.c3">协议</h5>
+        <a href="https://github.com/ardss/pickdone/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/SECURITY.md" target="_blank" rel="noopener" data-i18n="foot.c3a">安全说明</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/CHANGELOG.md" target="_blank" rel="noopener" data-i18n="foot.c3b">更新日志</a>
+        <a href="https://github.com/ardss/pickdone/blob/main/todo-app/THIRD-PARTY-NOTICES.md" target="_blank" rel="noopener" data-i18n="foot.c3d">素材署名</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 ardss · 拾事 PickDone</span>
+      <span class="mono" data-i18n="foot.made">用 Electron + Vue3 打造 · 数据留在你的电脑里</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
