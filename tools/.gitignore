@@ -1,0 +1,4 @@
+# 截图流水线产物（可随时用 capture.mjs 重新生成）
+shots/
+verify/
+tmp-gif/

@@ -21,7 +21,7 @@ website/
 └── tools/              截图流水线、本地服务器、文档组装器（产物已 gitignore）
 ```
 
-> 文档体系按 Diátaxis 框架组织（教程/指南/参考/阐释四象限），定稿见 `docs/官网/文档体系定稿-Diataxis映射-2026-09-02.md`。
+> 文档体系按 Diátaxis 框架组织（教程/指南/参考/阐释四象限），定稿文档在本地 `analysis/官网/`（不入库）。
 > cli/data/faq 三页由 `tools/assemble-docs.mjs` 以 guide.html 为骨架组装生成——改共享骨架后重跑一次即可；内容件在 `tools/_c-*.html`。
 
 ## 本地预览
@@ -63,6 +63,5 @@ node website/tools/capture.mjs
 
 ## 约束（改版前必读）
 
-- 宣传红线：不点名任何竞品、不提习惯/项目等实验性模块、不暴露实现细节（见 docs/宣传/宣发方案.md）
 - 文案修改进 `main.js` 的 `I18N`（中英两份都要改），页面静态中文是 no-JS 兜底
 - 新增截图后建议用 `website/tools/verify.mjs` + `sections.mjs` 过一遍桌面/移动/双语渲染

@@ -1,0 +1,28 @@
+# PickDone 官网生产配置 —— Caddy
+# 静态站 + 自动 HTTPS(Caddy 自动申请续期证书) + /count 反代 GoatCounter(自托管)
+# 用法: 服务器上 caddy run --config Caddyfile；域名 DNS A 记录指到本机后自动出证书
+
+pickdone.app {
+	# 静态站根目录(rsync 目标)
+	root * /srv/pickdone/website
+	encode zstd gzip
+
+	# 静态资源长缓存(文件名带内容戳的才放心长缓存;html 不缓存)
+	@immutable path /assets/img/* /assets/shots/* /assets/fonts/*
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+	header / Cache-Control "no-cache"
+
+	# 安全头
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+	}
+
+	file_server
+}
+
+# GoatCounter 自托管(可选,与云版二选一):子域反代
+count.pickdone.app {
+	reverse_proxy 127.0.0.1:8080
+}

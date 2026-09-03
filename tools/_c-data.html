@@ -1,0 +1,40 @@
+      <section class="doc-sec">
+        <h2 data-i18n="dt.store.h">存储位置</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n="dt.store.p">全部数据落在一个本机加密数据库文件（SQLite，WAL 模式）与自动备份目录中，位于系统应用数据目录下：</p>
+        <p><span class="path">%APPDATA%/todo-list-app/todos.db</span></p>
+        <p style="margin-top:8px"><span class="path">%APPDATA%/todo-list-app/backups/</span></p>
+        <p style="margin-top:8px"><span class="path">%APPDATA%/todo-list-app/cli-audit.jsonl</span></p>
+        <p class="note" data-i18n="dt.store.note">加密存储意味着即便有人拿到这个文件，也无法直接读出你的任务内容。</p>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="dt.backup.h">备份体系</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n="dt.backup.p1">应用自动备份，无需配置：内容去重（相同内容不重复占空间）+ 分级保留（近期备份更密、久远备份更稀），危险操作（如清空回收站）执行前还会先打事件快照。</p>
+        <div class="doc-sub"><h4 data-i18n="dt.backup.h2">从备份恢复</h4>
+          <p data-i18n="dt.backup.s1">打开 设置 → 备份；</p>
+          <p data-i18n="dt.backup.s2">选择一个备份点（列表带时间与说明）；</p>
+          <p data-i18n="dt.backup.s3">一键恢复，当前数据会先被再次快照，不怕恢复错。</p>
+        </div>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="dt.migrate.h">换机与重装</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n="dt.migrate.p">备份文件即完整数据：把数据目录（含数据库与 backups/）拷到新机器同位置，或在新机器上用「从备份恢复」指向拷过来的备份，即完成迁移。重装系统、卸载重装同理——卸载应用从不删除数据目录。</p>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="dt.export.h">导出</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n="dt.export.p">任务数据可导出 Excel 表格与 PDF；统计与日历支持生成分享长图。导出的文件属于你，想放哪放哪。</p>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="dt.enc.h">加密是怎么做的</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n="dt.enc.p">数据库使用 SQLCipher 系加密驱动（better-sqlite3-multiple-ciphers）整库加密；密钥文件 <span class="path">db.key</span> 与数据库放在同一目录，随备份/迁移一起走，不需要你记密码。</p>
+        <p class="note" data-i18n="dt.enc.p2">诚实边界：这能防住「拿到单个数据库文件」的读取；如果攻击者已经能读取你的整个用户目录，密钥也在一起，这层不设防（系统级方案在评估中）。我们把边界写出来，是因为加密不是魔法。</p>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="dt.net.h">网络行为声明</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n="dt.net.p">拾事没有账号体系与云端服务器，正常运行全程不联网。唯一可能的外部请求是检查应用更新（访问 GitHub Releases），可在设置中改为手动检查。</p>
+        <p class="note" data-i18n="dt.net.p2">不信？可以自己验证：退出应用后用系统命令查看网络连接（如 netstat），或在防火墙里拦掉拾事后照常用；源码全部公开，联网调用点可以直接搜。</p>
+      </section>

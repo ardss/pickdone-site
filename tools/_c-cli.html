@@ -1,0 +1,74 @@
+      <section class="doc-sec">
+        <h2 data-i18n="cr.pre.h">运行前提</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n="cr.pre.p1">需要 Node.js ≥ 20；命令在仓库的 todo-app 目录下执行：</p>
+        <p><span class="code-inline">node cli/todo-cli.js &lt;command&gt; [args] [--json]</span></p>
+        <p style="color:var(--text-2);font-size:14.5px;margin-top:10px" data-i18n="cr.pre.p2">给 AI 助手用时始终加 --json：输出 {ok, command, data} 包络，写操作附带 next 字段提示后续命令。</p>
+        <p class="note" data-i18n="cr.sync">应用正在运行时，CLI 写入约 2 秒内自动同步到界面，无需重启。</p>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="cr.conv.h">通用约定</h2>
+        <div class="doc-sub"><h4 data-i18n="cr.conv.hdate">日期参数</h4><p data-i18n="cr.conv.date">日期参数统一支持：today / tomorrow / +3d / YYYY-MM-DD / "YYYY-MM-DD HH:mm"。</p></div>
+        <div class="doc-sub"><h4 data-i18n="cr.conv.herr">错误与退出码</h4><p data-i18n="cr.conv.err">错误走 stderr 并带非零退出码。常见错误码：AMBIGUOUS_MATCH（关键词命中多条，换更精确关键词或用完整 taskId，不要猜）、TASK_NOT_FOUND、NEEDS_CONFIRM（危险操作缺确认）。</p></div>
+        <div class="doc-sub"><h4 data-i18n="cr.conv.hlimit">返回与级联</h4><p data-i18n="cr.conv.limit">list / search 默认最多返回 200 条（--limit 可调，上限 500）；完成父任务默认连带勾选全部子任务（--no-sub-cascade 关闭）。</p></div>
+        <div class="doc-sub"><h4 data-i18n="cr.conv.haudit">审计流水</h4><p data-i18n="cr.conv.audit">每次写操作自动落审计流水（数据目录 cli-audit.jsonl），log 命令可查询——向别人汇报「AI 改了什么」时引用它。</p></div>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="cr.read.h">读取命令</h2>
+        <div class="compare cmd-table">
+          <table class="cmp">
+            <thead><tr><th style="width:34%"><span class="code-inline">todo-cli …</span></th><th style="width:33%" data-i18n="cr.t.desc">作用</th><th data-i18n="cr.t.ex">示例</th></tr></thead>
+            <tbody>
+              <tr><td><span class="code-inline">overview</span></td><td data-i18n="cr.r1">今日总览：完成度 / 逾期 / 无日期 / 回收站计数</td><td><span class="code-inline" data-i18n="cr.e1">todo-cli overview --json</span></td></tr>
+              <tr><td><span class="code-inline">list</span></td><td data-i18n="cr.r2">列任务：支持 --all|today|tomorrow|week|overdue|future、--done|--undone、--category、--keyword、--limit</td><td><span class="code-inline" data-i18n="cr.e2">todo-cli list today --undone --json</span></td></tr>
+              <tr><td><span class="code-inline">search</span></td><td data-i18n="cr.r3">全库搜索：按关键词搜内容与描述</td><td><span class="code-inline" data-i18n="cr.e3">todo-cli search "周报" --json</span></td></tr>
+              <tr><td><span class="code-inline">get</span></td><td data-i18n="cr.r4">查看单个任务完整字段（支持 taskId 或关键词定位）</td><td><span class="code-inline" data-i18n="cr.e4">todo-cli get "写周报" --json</span></td></tr>
+              <tr><td><span class="code-inline">categories</span></td><td data-i18n="cr.r5">分类列表（id 与名称）</td><td><span class="code-inline" data-i18n="cr.e5">todo-cli categories --json</span></td></tr>
+              <tr><td><span class="code-inline">stats</span></td><td data-i18n="cr.r6">统计：每日完成量 + 专注分钟（默认近 7 天，可 --from/--to 指定区间）</td><td><span class="code-inline" data-i18n="cr.e6">todo-cli stats --from 2026-08-01 --json</span></td></tr>
+              <tr><td><span class="code-inline">recycle</span></td><td data-i18n="cr.r7">回收站列表</td><td><span class="code-inline" data-i18n="cr.e7">todo-cli recycle --json</span></td></tr>
+              <tr><td><span class="code-inline">doctor</span></td><td data-i18n="cr.r8">环境自检（数据目录、依赖与配置体检）</td><td><span class="code-inline" data-i18n="cr.e8">todo-cli doctor</span></td></tr>
+              <tr><td><span class="code-inline">log</span></td><td data-i18n="cr.r9">审计流水查询：外部写操作历史（--n 条数，--action 过滤）</td><td><span class="code-inline" data-i18n="cr.e9">todo-cli log --n 20 --json</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="cr.write.h">写入命令</h2>
+        <div class="compare cmd-table">
+          <table class="cmp">
+            <thead><tr><th style="width:34%"><span class="code-inline">todo-cli …</span></th><th style="width:33%" data-i18n="cr.t.desc">作用</th><th data-i18n="cr.t.ex">示例</th></tr></thead>
+            <tbody>
+              <tr><td><span class="code-inline">add</span></td><td data-i18n="cr.w1">新增任务：--desc 描述、--date、--reminder、--category、--difficulty</td><td><span class="code-inline" data-i18n="cr.we1">todo-cli add "写周报" --date friday --category 工作</span></td></tr>
+              <tr><td><span class="code-inline">done</span></td><td data-i18n="cr.w2">完成任务（写 completedAt）</td><td><span class="code-inline" data-i18n="cr.we2">todo-cli done "周报" --json</span></td></tr>
+              <tr><td><span class="code-inline">undo</span></td><td data-i18n="cr.w3">撤销完成</td><td><span class="code-inline" data-i18n="cr.we3">todo-cli undo "周报"</span></td></tr>
+              <tr><td><span class="code-inline">edit</span></td><td data-i18n="cr.w4">编辑：--content 新标题、--desc、--date、--reminder、--category</td><td><span class="code-inline" data-i18n="cr.we4">todo-cli edit "周报" --date monday</span></td></tr>
+              <tr><td><span class="code-inline">delete</span></td><td data-i18n="cr.w5">删除（进回收站，可恢复）</td><td><span class="code-inline" data-i18n="cr.we5">todo-cli delete "旧任务"</span></td></tr>
+              <tr><td><span class="code-inline">restore</span></td><td data-i18n="cr.w6">从回收站恢复</td><td><span class="code-inline" data-i18n="cr.we6">todo-cli restore "旧任务"</span></td></tr>
+              <tr><td><span class="code-inline">import</span></td><td data-i18n="cr.w7">从其他应用一键迁移：滴答清单 / TickTick / Todoist 备份 CSV；--dry-run 先预览，重复任务自动去重</td><td><span class="code-inline" data-i18n="cr.we7">todo-cli import ticktick-backup.csv --dry-run</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="warn" data-i18n-html="cr.purge.warn"><b>purge 是本接口唯一不可恢复的操作。</b>清空回收站前必须：先跑 <span class="code-inline">purge --dry-run</span> 看清单 → 用户明确确认 → 带 <span class="code-inline">--yes</span> 执行。三者缺一不可。</div>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="cr.tomato.h">番茄命令</h2>
+        <div class="compare cmd-table">
+          <table class="cmp">
+            <thead><tr><th style="width:34%"><span class="code-inline">todo-cli tomato …</span></th><th style="width:33%" data-i18n="cr.t.desc">作用</th><th data-i18n="cr.t.ex">示例</th></tr></thead>
+            <tbody>
+              <tr><td><span class="code-inline">start</span></td><td data-i18n="cr.t1">开始专注（可 --task 附着任务、--minutes 自定义时长）</td><td><span class="code-inline" data-i18n="cr.te1">todo-cli tomato start --task "写周报" --json</span></td></tr>
+              <tr><td><span class="code-inline">stop</span></td><td data-i18n="cr.t2">停止 / 放弃（默认按已专注时长落账，--reason 记原因）</td><td><span class="code-inline" data-i18n="cr.te2">todo-cli tomato stop --reason "被人打断"</span></td></tr>
+              <tr><td><span class="code-inline">attach</span></td><td data-i18n="cr.t3">给进行中的番茄换绑 / 取消附着任务（--none）</td><td><span class="code-inline" data-i18n="cr.te3">todo-cli tomato attach "新任务"</span></td></tr>
+              <tr><td><span class="code-inline">status</span></td><td data-i18n="cr.t4">查看番茄状态（倒计时 / 附着任务 / 今日收成）</td><td><span class="code-inline" data-i18n="cr.te4">todo-cli tomato status --json</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="doc-sec">
+        <h2 data-i18n="cr.ai.h">接入 AI 助手</h2>
+        <p style="color:var(--text-2);font-size:14.5px" data-i18n="cr.ai.p">把 CLI 注册成 Claude、Cursor 等 AI 助手的工具，它就能直接替你管任务。仓库内附带现成的技能描述文件（todo-app/cli/SKILL.md），助手的接入配置可直接引用。人和 AI 读写同一个本地库，不存在第二份需要同步的数据。</p>
+      </section>
