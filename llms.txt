@@ -11,7 +11,7 @@ PickDone (拾事) is a desktop app that connects todos, calendar scheduling, pom
 - Download: https://github.com/ardss/pickdone/releases (installer with auto-update + portable build)
 - Website: https://pickdone.app (this site, bilingual: Chinese / English, switched client-side)
 - Data model: local-first; one encrypted SQLite database per user under %APPDATA%/pickdone; automatic backups with GFS retention; no accounts, no telemetry, weather is the only optional network feature (off by default)
-- CLI: 20+ primitives, all with --json, shipped with the app (resources/cli/todo-cli.js); AI agents can register it as a skill — see https://github.com/ardss/pickdone/blob/main/todo-app/cli/SKILL.md
+- CLI: 20+ primitives, all with --json, shipped with the app (resources/cli/pickdone.js); AI agents can register it as a skill — see https://github.com/ardss/pickdone/blob/main/todo-app/cli/SKILL.md
 
 ## Key pages
 
