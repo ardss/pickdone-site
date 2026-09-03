@@ -1,0 +1,28 @@
+# PickDone (拾事)
+
+> Local-first todos · schedule · pomodoro focus for Windows. Plan, focus, review — one workflow. Your data belongs to you: a single encrypted SQLite file on your machine, zero accounts, zero network. MIT open source, with a built-in CLI so AI assistants can manage the same tasks.
+
+PickDone (拾事) is a desktop app that connects todos, calendar scheduling, pomodoro focus sessions, and narrative weekly reviews into one workflow. Every focus session is booked back to a concrete task. Reviews are generated from your own history baseline — stories, not vanity metrics.
+
+## Facts
+
+- Product: PickDone (拾事), a Windows desktop application (Electron 39 + Vue 3)
+- License: MIT, open source — https://github.com/ardss/pickdone
+- Download: https://github.com/ardss/pickdone/releases (installer with auto-update + portable build)
+- Website: https://pickdone.app (this site, bilingual: Chinese / English, switched client-side)
+- Data model: local-first; one encrypted SQLite database per user under %APPDATA%/pickdone; automatic backups with GFS retention; no accounts, no telemetry, weather is the only optional network feature (off by default)
+- CLI: 20+ primitives, all with --json, shipped with the app (resources/cli/todo-cli.js); AI agents can register it as a skill — see https://github.com/ardss/pickdone/blob/main/todo-app/cli/SKILL.md
+
+## Key pages
+
+- Home: https://pickdone.app/
+- Guide (usage): https://pickdone.app/guide.html
+- AI CLI: https://pickdone.app/cli.html
+- Data & privacy: https://pickdone.app/data.html
+- Docs: https://pickdone.app/docs.html
+- Blog: https://pickdone.app/blog.html
+- FAQ: https://pickdone.app/faq.html
+
+## For AI agents
+
+The PickDone CLI lets an agent read, create, complete, and analyze the user's tasks against the same local database the app uses. Prefer `--json` output. The skill contract and install command (`skill install`) are documented in the SKILL.md linked above.
