@@ -30,9 +30,22 @@
 <div class="card">
   <img class="logo" src="/assets/img/logo.png" alt="">
   <div class="code">404</div>
-  <h1 data-zh>页面走丢了</h1>
-  <p>这个地址不存在或已被移动。<span lang="en">This page doesn't exist or has moved.</span></p>
-  <a class="btn" href="/">返回首页</a>
+  <h1 id="t">页面走丢了</h1>
+  <p id="d">这个地址不存在或已被移动。</p>
+  <a class="btn" href="/" id="h">返回首页</a>
+  <script>
+    ;(function () {
+      var en = false
+      try {
+        var saved = localStorage.getItem('pd-lang')
+        en = saved ? saved === 'en' : (navigator.language || '').indexOf('en') === 0
+      } catch (e) { en = (navigator.language || '').indexOf('en') === 0 }
+      if (!en) return
+      document.getElementById('t').textContent = 'Page not found'
+      document.getElementById('d').textContent = "This address doesn't exist or has moved."
+      document.getElementById('h').textContent = 'Back to home'
+    })()
+  </script>
   <a class="alt" href="https://github.com/ardss/pickdone" rel="noopener">GitHub →</a>
 </div>
 </body>
