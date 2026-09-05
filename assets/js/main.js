@@ -7,7 +7,7 @@
   /* ---------------- 双语字典 ---------------- */
   var I18N = {
     zh: {
-      'nav.features': '功能', 'nav.cli': 'AI CLI', 'nav.compare': '对比', 'nav.privacy': '隐私', 'nav.faq': '常见问题', 'nav.download': '免费下载',
+      'nav.demo': '在线演示', 'demo.note': '内容由浏览器内置的演示数据生成，仅保存在你自己的设备上，不会上传。', 'nav.features': '功能', 'nav.cli': 'AI CLI', 'nav.compare': '对比', 'nav.privacy': '隐私', 'nav.faq': '常见问题', 'nav.download': '免费下载',
       'hero.badge': '开源 · MIT 协议 · Windows 可用',
       'hero.h1': '计划、专注、复盘，<br><span class="em">一气呵成</span>',
       'hero.sub': '拾事把待办、日程、番茄专注和数据复盘连成一条工作流：每段专注都算到对应的事情上，周报替你把一周讲成故事。零账号、不依赖网络——数据只存在你的电脑里。',
@@ -392,7 +392,7 @@
       'fq.t5a': 'GitHub Issues 是唯一官方渠道：报 bug 请附版本号、复现步骤与日志；功能建议同样欢迎，会进 roadmap 讨论。',
     },
     en: {
-      'nav.features': 'Features', 'nav.cli': 'AI CLI', 'nav.compare': 'Compare', 'nav.privacy': 'Privacy', 'nav.faq': 'FAQ', 'nav.download': 'Download',
+      'nav.demo': 'Live demo', 'demo.note': 'Runs on demo data built into your browser. It stays on your device — nothing is uploaded.', 'nav.features': 'Features', 'nav.cli': 'AI CLI', 'nav.compare': 'Compare', 'nav.privacy': 'Privacy', 'nav.faq': 'FAQ', 'nav.download': 'Download',
       'hero.badge': 'Open source · MIT · Available on Windows',
       'hero.h1': 'Plan, focus, review —<br><span class="em">one flow</span>',
       'hero.sub': 'PickDone turns to-dos, schedule, pomodoro focus and review into a single workflow: every focus session is logged against its task automatically, and the weekly report tells your week as a story. Zero account, no cloud — your data never leaves this machine.',
@@ -795,6 +795,9 @@
       if (val == null || val === '') continue
       if (keyHtml) el.innerHTML = val; else el.textContent = val
     }
+    // 在线 demo 跟随语言重载(iframe 内应用读 appLocale,由 demo 内种子脚本落)
+    var demoFrame = document.querySelector('.demo-frame iframe')
+    if (demoFrame && demoFrame.src) { demoFrame.src = demoFrame.src }
     // 截图按语言切换
     var imgs = document.querySelectorAll('img[data-shots]')
     for (var j = 0; j < imgs.length; j++) {

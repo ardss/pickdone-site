@@ -237,6 +237,12 @@ h2 { font-size: clamp(30px, 4.4vw, 46px); line-height: 1.24; font-weight: 900; l
 .chip-2 .ic { background: var(--brand-soft); color: var(--brand-ink); }
 @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
 
+/* ---------- 在线演示 ---------- */
+#demo { padding-top: 64px; }
+.demo-frame { border: 1px solid var(--line-2); border-radius: var(--radius-l); overflow: hidden; box-shadow: var(--shadow-float); background: #fff; }
+.demo-frame iframe { display: block; width: 100%; height: min(78vh, 720px); border: 0; }
+.demo-note { margin-top: 14px; text-align: center; font-size: 12.5px; color: var(--text-3); }
+
 /* ---------- 信任条 ---------- */
 .trust { border-block: 1px solid var(--line-2); background: var(--bg-2); padding: 24px 0; }
 .trust-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 46px; }
