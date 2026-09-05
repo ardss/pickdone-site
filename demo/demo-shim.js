@@ -80,23 +80,49 @@
       status: 'sync',
       version: 1
     })
-    todos = [
-      mk({ content: '欢迎使用浏览器调试模式', describe: '此页面由 browser-dev Vite 服务提供，数据仅存于 localStorage', catId: 0 }),
-      mk({ content: '晨会同步本周排期', describe: '10:00 线上会议', catId: 100001, dayOffset: 0, reminderOffsetMin: 30 }),
-      mk({ content: '评审 UI 还原度问题清单', catId: 100001, dayOffset: 0, sort: 20 }),
-      mk({ content: '写日报', catId: 100001, dayOffset: 0, complete: true, sort: 30 }),
-      mk({ content: '阅读《深入浅出 Vue.js》第 6 章', catId: 100002, dayOffset: 0, sort: 40 }),
-      mk({ content: '背 30 个单词', catId: 100002, dayOffset: 0, complete: true, sort: 50 }),
-      mk({ content: '下午跑步 5 公里', catId: 100003, dayOffset: 0, reminderOffsetMin: 120, sort: 60 }),
-      mk({ content: '给绿萝浇水', catId: 100003, dayOffset: 0, complete: true, sort: 70 }),
-      mk({ content: '准备周五的技术分享提纲', describe: '主题：时间管理工具的工程化实践', catId: 100001, dayOffset: 1 }),
-      mk({ content: '刷算法题：二叉树专题', catId: 100002, dayOffset: 1 }),
-      mk({ content: '预约体检', catId: 100003, dayOffset: 2, reminderOffsetMin: 60 * 24 }),
-      mk({ content: '整理季度 OKR 初稿', catId: 100001, dayOffset: 4 }),
-      mk({ content: '还书到图书馆（已过期一天）', catId: 100002, dayOffset: -1 }),
-      mk({ content: '上周复盘总结', catId: 100001, dayOffset: -3, complete: true }),
-      mk({ content: '无日期的想法灵感', describe: '随手记一条，之后拖到具体日期', catId: 0 })
-    ]
+    todos = (function () {
+      // 种子双语:跟随 appLocale(官网 demo 由注入脚本先行落键;5175 调试宿主默认中文)
+      let en = false
+      try { en = localStorage.getItem('appLocale') === 'en-US' } catch { /* 忽略 */ }
+      const T = en ? {
+        welcome: 'Welcome to the browser demo', welcomeD: 'Full app in your browser — data lives only in localStorage',
+        morning: 'Morning sync — weekly plan', morningD: '10:00 online meeting',
+        uiReview: 'Review UI fidelity issue list', daily: 'Write daily report',
+        vue: 'Read "Deep into Vue.js" ch. 6', words: 'Memorize 30 words',
+        run: 'Run 5 km in the afternoon', water: 'Water the plants',
+        talk: 'Prepare Friday tech-talk outline', talkD: 'Topic: engineering practices for time management',
+        algo: 'Algorithm practice: binary trees', checkup: 'Book a health checkup',
+        okr: 'Draft quarterly OKR', books: 'Return library books (overdue)',
+        retro: 'Weekly retro for last week', idea: 'A stray idea — drag it onto a day', ideaD: 'Jot it down now, drag it onto a day later'
+      } : {
+        welcome: '欢迎使用浏览器调试模式', welcomeD: '此页面由 browser-dev Vite 服务提供，数据仅存于 localStorage',
+        morning: '晨会同步本周排期', morningD: '10:00 线上会议',
+        uiReview: '评审 UI 还原度问题清单', daily: '写日报',
+        vue: '阅读《深入浅出 Vue.js》第 6 章', words: '背 30 个单词',
+        run: '下午跑步 5 公里', water: '给绿萝浇水',
+        talk: '准备周五的技术分享提纲', talkD: '主题：时间管理工具的工程化实践',
+        algo: '刷算法题：二叉树专题', checkup: '预约体检',
+        okr: '整理季度 OKR 初稿', books: '还书到图书馆（已过期一天）',
+        retro: '上周复盘总结', idea: '无日期的想法灵感', ideaD: '随手记一条，之后拖到具体日期'
+      }
+      return [
+        mk({ content: T.welcome, describe: T.welcomeD, catId: 0 }),
+        mk({ content: T.morning, describe: T.morningD, catId: 100001, dayOffset: 0, reminderOffsetMin: 30 }),
+        mk({ content: T.uiReview, catId: 100001, dayOffset: 0, sort: 20 }),
+        mk({ content: T.daily, catId: 100001, dayOffset: 0, complete: true, sort: 30 }),
+        mk({ content: T.vue, catId: 100002, dayOffset: 0, sort: 40 }),
+        mk({ content: T.words, catId: 100002, dayOffset: 0, complete: true, sort: 50 }),
+        mk({ content: T.run, catId: 100003, dayOffset: 0, reminderOffsetMin: 120, sort: 60 }),
+        mk({ content: T.water, catId: 100003, dayOffset: 0, complete: true, sort: 70 }),
+        mk({ content: T.talk, describe: T.talkD, catId: 100001, dayOffset: 1 }),
+        mk({ content: T.algo, catId: 100002, dayOffset: 1 }),
+        mk({ content: T.checkup, catId: 100003, dayOffset: 2, reminderOffsetMin: 60 * 24 }),
+        mk({ content: T.okr, catId: 100001, dayOffset: 4 }),
+        mk({ content: T.books, catId: 100002, dayOffset: -1 }),
+        mk({ content: T.retro, catId: 100001, dayOffset: -3, complete: true }),
+        mk({ content: T.idea, describe: T.ideaD, catId: 0 })
+      ]
+    })()
     save(todos)
   }
 
@@ -112,6 +138,17 @@
   // 分类（camelCase 结构与渲染端 category store 一致；localStorage 持久化）
   let categories = (() => { try { return JSON.parse(localStorage.getItem((function(){try{var o=localStorage.getItem('appShimCategories');if(o)return o;var e=localStorage.getItem('eveShimCategories');if(e){localStorage.setItem('appShimCategories',e);return e}}catch(_){} return null})()) || '[]') } catch { return [] } })()
   const saveCategories = () => { try { localStorage.setItem('appShimCategories', JSON.stringify(categories)) } catch {} }
+  // 空库时预置双语默认分类(与 store/category.js 初始示例同 id 同色,应用见库非空即不再灌其中文默认)
+  if (!categories.length) {
+    let en = false
+    try { en = localStorage.getItem('appLocale') === 'en-US' } catch { /* 忽略 */ }
+    const now = Date.now()
+    const mkCat = (i, name, color) => ({ category_id: 100000 + i, user_id: 840001, category_name: name, category_color: color, create_time: now + i, list_sort: 100 * i, folder_is: 0, folder_id: 0, delete_flag: 0 })
+    categories = en
+      ? [mkCat(1, 'Work', '#0f9d8f'), mkCat(2, 'Study', '#f2a63b'), mkCat(3, 'Life', '#7ac74f')]
+      : [mkCat(1, '工作', '#0f9d8f'), mkCat(2, '学习', '#f2a63b'), mkCat(3, '生活', '#7ac74f')]
+    saveCategories()
+  }
 
   async function dbCall(op, params) {
     switch (op) {

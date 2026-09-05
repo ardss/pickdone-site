@@ -41,10 +41,11 @@
 #demo-badge a:hover{text-decoration:underline}
 @media(max-width:640px){#demo-badge span.opt{display:none}}
 </style>
-<script src="./demo-shim.js"></script>
 <script>
-// 官网(pickdone-site)是浅色暖纸白设计,demo 钉浅色保持一致。
-// 设置有 LS 与 DB meta 双轨且启动时新者胜(dbMirror),故两头同写并盖时间戳,免得旧镜像反扑
+// 种子先行(必须在 demo-shim.js 之前):
+// ①浅色(官网暖纸白;设置 LS+DB meta 双轨新者胜,两头同写盖时间戳防旧镜像反扑)
+// ②语言跟随官网 pd-lang → 应用 appLocale
+// ③语言相对上次种子发生变更时清掉 shim 数据,让 shim/app 以新语言重灌种子
 ;(function(){
   try {
     var s = {}
@@ -54,21 +55,46 @@
       localStorage.setItem('settingsState', JSON.stringify(s))
       localStorage.setItem('settingsMirrorAt', String(Date.now()))
     }
-    // 语言跟随官网切换(pd-lang: zh|en → 应用 appLocale);独立打开时不动
+    var loc = 'zh-CN'
     try {
       var pl = window.parent && window.parent.localStorage && window.parent.localStorage.getItem('pd-lang')
-      if (pl === 'en' || pl === 'zh') localStorage.setItem('appLocale', pl === 'en' ? 'en-US' : 'zh-CN')
-    } catch (e) { /* 跨源时忽略 */ }
+      if (pl === 'en' || pl === 'zh') loc = pl === 'en' ? 'en-US' : 'zh-CN'
+      localStorage.setItem('appLocale', loc)
+    } catch (e) { /* 跨源时沿用已存值 */ }
+    try { loc = localStorage.getItem('appLocale') || loc } catch (e) {}
+    var prev = null
+    try { prev = localStorage.getItem('demoSeedLoc') } catch (e) {}
+    if (prev !== loc) {
+      try {
+        localStorage.removeItem('appBrowserShim.todos.v4')
+        localStorage.removeItem('appBrowserShim.meta')
+        localStorage.removeItem('appShimCategories')
+        localStorage.removeItem('eveShimCategories')
+      } catch (e) {}
+    }
+    try { localStorage.setItem('demoSeedLoc', loc) } catch (e) {}
   } catch (e) { /* 忽略 */ }
 })()
 </script>
+<script src="./demo-shim.js?v=1788582049993"></script>
 <script>
-// 演示专注记录:与 browser-dev 调试宿主同款注入(tomatoAppendMany 原子 op,幂等不双账)
+// 演示专注记录:与 browser-dev 调试宿主同款注入(tomatoAppendMany 原子 op,幂等不双账),标签双语
 ;(function () {
   var poll = function () {
     if (!window.todoAPI || !window.todoAPI.dbCall) { setTimeout(poll, 300); return }
     window.todoAPI.dbCall('tomatoAll').then(function (existing) {
       if ((existing || []).some(function (r) { return String(r.tomatoId || '').indexOf('tmt_demo_') === 0 })) return
+      var en = false
+      try { en = localStorage.getItem('appLocale') === 'en-US' } catch (e) {}
+      var L = en ? {
+        morning: 'Morning sync', spec: 'Spec review', ui: 'UI fidelity review', weekly: 'Weekly report',
+        words: 'Memorize words', vue: 'Reading: Deep into Vue.js', plan: 'Sprint planning',
+        api: 'API integration', daily: 'Daily report'
+      } : {
+        morning: '晨会跟进', spec: '需求梳理', ui: '评审 UI 还原度问题清单', weekly: '写周报',
+        words: '背 30 个单词', vue: '阅读《深入浅出 Vue.js》', plan: '迭代排期',
+        api: '接口联调', daily: '日报'
+      }
       var mk = function (demoId, baseDay, sh, sm, durMin, focus) {
         var start = new Date(baseDay); start.setHours(sh, sm, 0, 0)
         var end = new Date(start.getTime() + durMin * 60000)
@@ -80,13 +106,13 @@
       var today = new Date(); today.setHours(0, 0, 0, 0)
       var yest = new Date(today.getTime() - 86400000)
       var recs = [
-        mk('d1', today, 9, 0, 25, '晨会跟进'), mk('d2', today, 9, 30, 25, '晨会跟进'),
-        mk('d3', today, 10, 0, 25, '需求梳理'), mk('d4', today, 10, 30, 25, '需求梳理'), mk('d5', today, 11, 0, 25, '需求梳理'),
-        mk('d6', today, 14, 0, 25, '评审 UI 还原度问题清单'), mk('d7', today, 15, 0, 25, '写周报'),
-        mk('d8', today, 16, 30, 25, '背 30 个单词'),
-        mk('d9', today, 20, 0, 25, '阅读《深入浅出 Vue.js》'), mk('d10', today, 20, 30, 25, '阅读《深入浅出 Vue.js》'),
-        mk('e1', yest, 9, 0, 25, '迭代排期'), mk('e2', yest, 9, 35, 25, '迭代排期'),
-        mk('e3', yest, 14, 0, 25, '接口联调'), mk('e4', yest, 14, 40, 25, '接口联调'), mk('e5', yest, 16, 0, 25, '日报')
+        mk('d1', today, 9, 0, 25, L.morning), mk('d2', today, 9, 30, 25, L.morning),
+        mk('d3', today, 10, 0, 25, L.spec), mk('d4', today, 10, 30, 25, L.spec), mk('d5', today, 11, 0, 25, L.spec),
+        mk('d6', today, 14, 0, 25, L.ui), mk('d7', today, 15, 0, 25, L.weekly),
+        mk('d8', today, 16, 30, 25, L.words),
+        mk('d9', today, 20, 0, 25, L.vue), mk('d10', today, 20, 30, 25, L.vue),
+        mk('e1', yest, 9, 0, 25, L.plan), mk('e2', yest, 9, 35, 25, L.plan),
+        mk('e3', yest, 14, 0, 25, L.api), mk('e4', yest, 14, 40, 25, L.api), mk('e5', yest, 16, 0, 25, L.daily)
       ]
       window.todoAPI.dbCall('tomatoAppendMany', recs).catch(function (e) { console.warn('[demo] 注入失败', e) })
     }).catch(function () { setTimeout(poll, 500) })
