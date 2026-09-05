@@ -778,9 +778,6 @@
     }
   }
 
-  // 浏览器的"恢复上次浏览位置"会把用户甩回上次停留处(常表现为打开页面自动滚到中段),改为每次从页顶
-  if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
-
   var currentLang = 'zh'
 
 
@@ -788,9 +785,6 @@
 
   function applyLang (lang) {
     if (!I18N[lang]) return
-    var scEl = document.scrollingElement || document.documentElement // 本站滚动容器是 body(overflow:hidden auto),window.scrollY 恒为 0
-    if (window.__releaseScrollPin) window.__releaseScrollPin()
-    var pinY = scEl.scrollTop
     currentLang = lang
     try { localStorage.setItem(LS_LANG, lang) } catch (e) { /* 私密模式忽略 */ }
     var nodes = document.querySelectorAll('[data-i18n],[data-i18n-html]')
@@ -803,10 +797,13 @@
       if (keyHtml) el.innerHTML = val; else el.textContent = val
     }
     // 在线 demo 跟随语言重载(iframe 内应用读 appLocale,由 demo 内种子脚本落)。
-    // 用唯一 query 重载:同址重载会命中 Chromium 的历史滚动恢复,把父页面甩回旧位置
+    // iframe 重载瞬间浏览器会把父页滚到 iframe 处,600ms 后(重载+焦点归位完成)拉回原位置
     var demoFrame = document.querySelector('.demo-frame iframe')
     if (demoFrame && demoFrame.src) {
-      demoFrame.src = demoFrame.src.split('?')[0] + '?lang=' + lang + '&t=' + Date.now()
+      var scEl = document.scrollingElement || document.documentElement
+      var pinY = scEl.scrollTop
+      demoFrame.src = demoFrame.src
+      setTimeout(function () { if (Math.abs(scEl.scrollTop - pinY) > 2) scEl.scrollTop = pinY }, 600)
     }
     // 截图按语言切换
     var imgs = document.querySelectorAll('img[data-shots]')
@@ -823,8 +820,6 @@
     bEn.classList.toggle('on', lang === 'en')
     bZh.setAttribute('aria-pressed', String(lang === 'zh'))
     bEn.setAttribute('aria-pressed', String(lang === 'en'))
-    // 文案替换会改变各段高度,浏览器的滚动锚定可能把页面甩到别处;显式钉回原位
-    if (scEl.scrollTop !== pinY) scEl.scrollTop = pinY
   }
 
   // 站内锚点:接管点击,自绘平滑滚动(本站原生 smooth 在部分环境下静默失效),滚完抹掉网址锚点,
@@ -834,9 +829,12 @@
       var target = document.getElementById(a.getAttribute('href').slice(1))
       if (!target) return
       e.preventDefault()
-      if (window.__releaseScrollPin) window.__releaseScrollPin()
       var sc = document.scrollingElement || document.documentElement
       var from = sc.scrollTop, to = target.getBoundingClientRect().top + from
+      // 后台标签 rAF 会停摆:300ms 仍无位移则瞬移到位
+      setTimeout(function () {
+        if (Math.abs(sc.scrollTop - from) < 2) sc.scrollTop = to
+      }, 300)
       var dist = to - from
       if (Math.abs(dist) < 2) { try { history.replaceState(null, '', location.pathname + location.search) } catch (err) {} ; return }
       var t0 = null, DUR = Math.min(820, 380 + Math.abs(dist) * 0.18)
@@ -854,6 +852,14 @@
       }
       requestAnimationFrame(step)
     })
+  })
+
+  // iframe 每次加载完成会抢走文档焦点,Chromium 随即把父页面滚到 iframe 处——立即夺回焦点
+  var demoFrameEl = document.querySelector('.demo-frame iframe')
+  if (demoFrameEl) demoFrameEl.addEventListener('load', function () {
+    setTimeout(function () {
+      try { if (document.activeElement === demoFrameEl) demoFrameEl.blur() } catch (e) { /* 忽略 */ }
+    }, 0)
   })
 
   document.getElementById('langZh').addEventListener('click', function () { applyLang('zh') })

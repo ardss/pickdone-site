@@ -25,33 +25,7 @@
   a.alt { margin-left: 12px; color: inherit; font-size: 14.5px; }
   img.logo { width: 44px; height: 44px; margin-bottom: 18px; }
 </style>
-  <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    // 打开/刷新一律从页顶开始,并压制两类浏览器原生下滚:①历史/锚点定位 ②demo iframe 子框架加载时
-    // Chromium 触发的父文档重定位(无 JS 调用方,实测必跳)。用户一旦主动滚动(滚轮/触摸/按键)立即放行。
-    ;(function () {
-      var pinned = true
-      ;['wheel', 'touchstart', 'keydown'].forEach(function (t) {
-        addEventListener(t, function () { pinned = false }, { capture: true, passive: true, once: true })
-      })
-      window.__releaseScrollPin = function () { pinned = false }
-      function pin () {
-        if (!pinned) return
-        // 必须瞬时赋值:html 有 scroll-behavior:smooth,scrollTo() 平滑动画会被 iframe 聚焦引发的原生定位反复打断
-        var se = document.scrollingElement || document.documentElement
-        if (se.scrollTop !== 0) se.scrollTop = 0
-      }
-      addEventListener('scroll', pin, { capture: true, passive: true })
-      var n = 0
-      var iv = setInterval(function () {
-        pin()
-        var f = document.querySelector('.demo-frame iframe')
-        if (++n > 50 || (f && f.hasAttribute('data-demo-loaded'))) { clearInterval(iv); setTimeout(function () { clearInterval(iv) }, 400) }
-      }, 100)
-      document.addEventListener('DOMContentLoaded', function () {
-        var f = document.querySelector('.demo-frame iframe')
-        if (f) f.addEventListener('load', function () { f.setAttribute('data-demo-loaded', '') })
-      })
-    })()</script>
+  <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual'</script>
 </head>
 <body>
 <div class="card">
