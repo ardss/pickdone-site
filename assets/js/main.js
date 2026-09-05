@@ -102,6 +102,7 @@
       'dl.h': '下载拾事，双击即用',
       'dl.lede': '安装版支持应用内自动更新；便携版单文件免安装，拷进 U 盘也能跑。',
       'dl.c1h': '安装版', 'dl.c1p': '标准安装，支持应用内自动更新。适合大多数用户。', 'dl.go': '前往下载',
+      'dl.soon': '2026 年 9 月 8 日 正式上线',
       'dl.c2h': '便携版', 'dl.c2p': '免安装，不写注册表，放在哪都能跑，更新需手动下载。', 'dl.go2': '前往下载',
       'dl.sys1': '系统要求：Windows 10 / 11（64 位）。', 'dl.sys2': '查看全部版本与更新日志 →',
       'dl.tut': '装好后，先看《5 分钟上手：你的第一个番茄》→',
@@ -489,6 +490,7 @@
       'dl.h': 'Download PickDone, double-click, done',
       'dl.lede': 'The installer updates itself in-app; the portable build is a single file that even runs from a USB stick.',
       'dl.c1h': 'Installer', 'dl.c1p': 'Standard installation with in-app auto-updates. Best for most users.', 'dl.go': 'Download',
+      'dl.soon': 'Launching Sep 8, 2026',
       'dl.c2h': 'Portable', 'dl.c2p': 'No installation, nothing written to the registry. Update manually.', 'dl.go2': 'Download',
       'dl.sys1': 'Requires Windows 10 / 11 (64-bit).', 'dl.sys2': 'View all releases & changelog →',
       'dl.tut': 'After installing, start with “Quick start: your first pomodoro” →',
@@ -819,6 +821,27 @@
     bEn.classList.toggle('on', lang === 'en')
     bZh.setAttribute('aria-pressed', String(lang === 'zh'))
     bEn.setAttribute('aria-pressed', String(lang === 'en'))
+    applyD0()
+  }
+  // 上线日 D0(2026-09-08,发布时间轴 GitHub 公开 18:00)之前:下载钮呈灰色写上线日期;
+  // 过点自动翻回可点"前往下载",无需人工在 D0 当天改站
+  var D0_TS = new Date('2026-09-08T18:00:00+08:00').getTime()
+  function applyD0 () {
+    var soon = Date.now() < D0_TS
+    var btns = document.querySelectorAll('a[data-d0]')
+    for (var i = 0; i < btns.length; i++) {
+      var b = btns[i]
+      if (soon) {
+        if (!b.getAttribute('data-d0-href')) b.setAttribute('data-d0-href', b.getAttribute('href'))
+        b.removeAttribute('href')
+        b.classList.add('btn--soon')
+        b.textContent = t('dl.soon')
+      } else if (b.classList.contains('btn--soon')) {
+        b.setAttribute('href', b.getAttribute('data-d0-href'))
+        b.classList.remove('btn--soon')
+        b.textContent = t(b.getAttribute('data-i18n'))
+      }
+    }
   }
 
   // 站内锚点:接管点击,自绘平滑滚动(本站原生 smooth 在部分环境下静默失效),滚完抹掉网址锚点,
@@ -894,6 +917,7 @@
     saved = /^zh\b|^zh-|^zh_/i.test(navLang) ? 'zh' : 'en'
   }
   if (saved === 'en') applyLang('en')
+  applyD0() // 中文为默认态不经 applyLang,须独立跑一次 D0 灰态
 
   /* ---------------- Hero mock：明暗切换 + 活的番茄计时 ---------------- */
   var mock = document.getElementById('mock')

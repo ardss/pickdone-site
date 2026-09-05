@@ -86,6 +86,8 @@ h2 { font-size: clamp(30px, 4.4vw, 46px); line-height: 1.24; font-weight: 900; l
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(15, 157, 143, 0.38), inset 0 1px 0 rgba(255,255,255,0.28); }
 .btn-ghost { border-color: var(--line); color: var(--ink); background: transparent; }
 .btn-ghost:hover { border-color: var(--brand); color: var(--brand-ink); background: var(--brand-soft); transform: translateY(-2px); }
+/* 上线前灰态(D0 状态机切换):不可点,仅展示上线日期 */
+.btn--soon, .btn-primary.btn--soon, .btn-ghost.btn--soon { background: var(--line-2); color: var(--text-3); border-color: transparent; box-shadow: none; pointer-events: none; cursor: default; transform: none; }
 .btn-sm { padding: 9px 20px; font-size: 14px; }
 
 /* ---------- 导航 ---------- */
@@ -243,7 +245,8 @@ h2 { font-size: clamp(30px, 4.4vw, 46px); line-height: 1.24; font-weight: 900; l
 .demo-frame { border: 1px solid var(--line-2); border-radius: var(--radius-l); overflow: hidden; box-shadow: var(--shadow-float); background: #fff; }
 .demo-frame iframe { display: block; width: 100%; height: min(78vh, 720px); border: 0; }
 .demo-note { margin-top: 14px; text-align: center; font-size: 12.5px; color: var(--text-3); }
-.demo-stage { display: flex; gap: 20px; align-items: stretch; height: min(64vh, 620px); }
+/* 演示窗比例对齐真实应用窗:舞台限宽1240(演示框≈980)+高度min(74vh,660px)≈1.5:1,避免全宽拉扁压瘪侧边栏 */
+.demo-stage { display: flex; gap: 20px; align-items: stretch; height: min(74vh, 660px); max-width: 1240px; margin-inline: auto; }
 .demo-frame { flex: 1; min-width: 0; }
 .demo-frame iframe { height: 100%; }
 .float-col { flex: 0 0 240px; width: 240px; display: flex; flex-direction: column; justify-content: flex-end; }
