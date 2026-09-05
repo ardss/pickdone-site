@@ -7,7 +7,7 @@
   /* ---------------- 双语字典 ---------------- */
   var I18N = {
     zh: {
-      'nav.demo': '在线演示', 'dl.tag': 'Portable · 单文件', 'fl.task': '晨会同步本周排期', 'fl.count': '今日番茄 10/8', 'demo.note': '内容由浏览器内置的演示数据生成，仅保存在你自己的设备上，不会上传。', 'nav.features': '功能', 'nav.cli': 'AI CLI', 'nav.compare': '对比', 'nav.privacy': '隐私', 'nav.faq': '常见问题', 'nav.download': '免费下载',
+      'nav.demo': '在线演示', 'dl.tag': 'Portable · 单文件',  'demo.note': '内容由浏览器内置的演示数据生成，仅保存在你自己的设备上，不会上传。', 'nav.features': '功能', 'nav.cli': 'AI CLI', 'nav.compare': '对比', 'nav.privacy': '隐私', 'nav.faq': '常见问题', 'nav.download': '免费下载',
       'hero.badge': '开源 · MIT 协议 · Windows 可用',
       'hero.h1': '计划、专注、复盘，<br><span class="em">一气呵成</span>',
       'hero.sub': '拾事把待办、日程、番茄专注和数据复盘连成一条工作流：每段专注都算到对应的事情上，周报替你把一周讲成故事。零账号、不依赖网络——数据只存在你的电脑里。',
@@ -392,7 +392,7 @@
       'fq.t5a': 'GitHub Issues 是唯一官方渠道：报 bug 请附版本号、复现步骤与日志；功能建议同样欢迎，会进 roadmap 讨论。',
     },
     en: {
-      'nav.demo': 'Live demo', 'dl.tag': 'Portable · single file', 'fl.task': 'Morning sync — weekly plan', 'fl.count': 'Today 10/8 pomodoros', 'demo.note': 'Runs on demo data built into your browser. It stays on your device — nothing is uploaded.', 'nav.features': 'Features', 'nav.cli': 'AI CLI', 'nav.compare': 'Compare', 'nav.privacy': 'Privacy', 'nav.faq': 'FAQ', 'nav.download': 'Download',
+      'nav.demo': 'Live demo', 'dl.tag': 'Portable · single file',  'demo.note': 'Runs on demo data built into your browser. It stays on your device — nothing is uploaded.', 'nav.features': 'Features', 'nav.cli': 'AI CLI', 'nav.compare': 'Compare', 'nav.privacy': 'Privacy', 'nav.faq': 'FAQ', 'nav.download': 'Download',
       'hero.badge': 'Open source · MIT · Available on Windows',
       'hero.h1': 'Plan, focus, review —<br><span class="em">one flow</span>',
       'hero.sub': 'PickDone turns to-dos, schedule, pomodoro focus and review into a single workflow: every focus session is logged against its task automatically, and the weekly report tells your week as a story. Zero account, no cloud — your data never leaves this machine.',
@@ -798,13 +798,8 @@
     }
     // 在线 demo 跟随语言重载(iframe 内应用读 appLocale,由 demo 内种子脚本落)。
     // iframe 重载瞬间浏览器会把父页滚到 iframe 处,600ms 后(重载+焦点归位完成)拉回原位置
-    var demoFrame = document.querySelector('.demo-frame iframe')
-    if (demoFrame && demoFrame.src) {
-      var scEl = document.scrollingElement || document.documentElement
-      var pinY = scEl.scrollTop
-      demoFrame.src = demoFrame.src
-      setTimeout(function () { if (Math.abs(scEl.scrollTop - pinY) > 2) scEl.scrollTop = pinY }, 600)
-    }
+    var frames = document.querySelectorAll('.demo-frame iframe, .float-frame iframe')
+    for (var fi = 0; fi < frames.length; fi++) { if (frames[fi].src) frames[fi].src = frames[fi].src }
     // 截图按语言切换
     var imgs = document.querySelectorAll('img[data-shots]')
     for (var j = 0; j < imgs.length; j++) {
@@ -1020,17 +1015,4 @@
     if (zhBtn) zhBtn.addEventListener('click', function () { document.querySelectorAll('.post-card .post-more').forEach(function (m) { m.textContent = T.more.zh }) })
     if (enBtn) enBtn.addEventListener('click', function () { document.querySelectorAll('.post-card .post-more').forEach(function (m) { m.textContent = T.more.en }) })
   }
-})()
-
-// 在线演示旁的悬浮小窗:走秒倒计时(纯装饰,与 iframe 内应用互不依赖)
-;(function () {
-  var el = document.getElementById('fdTime')
-  if (!el) return
-  var remain = 25 * 60
-  setInterval(function () {
-    remain = remain > 0 ? remain - 1 : 25 * 60 - 1
-    var m = String(Math.floor(remain / 60))
-    var sec = String(remain % 60)
-    el.textContent = (m.length < 2 ? '0' + m : m) + ':' + (sec.length < 2 ? '0' + sec : sec)
-  }, 1000)
 })()
