@@ -778,12 +778,17 @@
     }
   }
 
+  // 浏览器的"恢复上次浏览位置"会把用户甩回上次停留处(常表现为打开页面自动滚到中段),改为每次从页顶
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+
   var currentLang = 'zh'
+
 
   function t (key) { return I18N[currentLang][key] }
 
   function applyLang (lang) {
     if (!I18N[lang]) return
+    var pinY = window.scrollY
     currentLang = lang
     try { localStorage.setItem(LS_LANG, lang) } catch (e) { /* 私密模式忽略 */ }
     var nodes = document.querySelectorAll('[data-i18n],[data-i18n-html]')
@@ -795,9 +800,12 @@
       if (val == null || val === '') continue
       if (keyHtml) el.innerHTML = val; else el.textContent = val
     }
-    // 在线 demo 跟随语言重载(iframe 内应用读 appLocale,由 demo 内种子脚本落)
+    // 在线 demo 跟随语言重载(iframe 内应用读 appLocale,由 demo 内种子脚本落)。
+    // 用唯一 query 重载:同址重载会命中 Chromium 的历史滚动恢复,把父页面甩回旧位置
     var demoFrame = document.querySelector('.demo-frame iframe')
-    if (demoFrame && demoFrame.src) { demoFrame.src = demoFrame.src }
+    if (demoFrame && demoFrame.src) {
+      demoFrame.src = demoFrame.src.split('?')[0] + '?lang=' + lang + '&t=' + Date.now()
+    }
     // 截图按语言切换
     var imgs = document.querySelectorAll('img[data-shots]')
     for (var j = 0; j < imgs.length; j++) {
@@ -813,6 +821,8 @@
     bEn.classList.toggle('on', lang === 'en')
     bZh.setAttribute('aria-pressed', String(lang === 'zh'))
     bEn.setAttribute('aria-pressed', String(lang === 'en'))
+    // 文案替换会改变各段高度,浏览器的滚动锚定可能把页面甩到别处;显式钉回原位
+    if (window.scrollY !== pinY) window.scrollTo({ top: pinY, behavior: 'instant' })
   }
 
   document.getElementById('langZh').addEventListener('click', function () { applyLang('zh') })
