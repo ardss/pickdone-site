@@ -857,6 +857,28 @@
     }, 0)
   })
 
+  // 悬浮小窗保真:网页端样式级联与 Electron 透明窗不同,卡片丢失了"钉底+透明"两条关键规则。
+  // 加载后注入修正:卡片钉在窗底、页面背景透明,菜单/白噪音面板照原版向上展开
+  var floatFrameEl = document.querySelector('.float-frame iframe')
+  if (floatFrameEl) floatFrameEl.addEventListener('load', function () {
+    setTimeout(function () {
+      try {
+        var d = floatFrameEl.contentDocument
+        if (!d || d.getElementById('float-fidelity')) return
+        var st = d.createElement('style')
+        st.id = 'float-fidelity'
+        st.textContent = [
+          'html, body { background: transparent !important; }',
+          '#app { margin: 0 !important; }',
+          '.floating { position: fixed !important; top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;',
+          '  align-items: flex-end !important; justify-content: flex-end !important; background: transparent !important; padding: 0 !important; }',
+          '.tomato { box-shadow: 0 10px 30px rgba(0,0,0,.18), 0 2px 8px rgba(0,0,0,.10) !important; }'
+        ].join('\n')
+        d.head.appendChild(st)
+      } catch (e) { /* 忽略 */ }
+    }, 0)
+  })
+
   document.getElementById('langZh').addEventListener('click', function () { applyLang('zh') })
   document.getElementById('langEn').addEventListener('click', function () { applyLang('en') })
   var saved = ''

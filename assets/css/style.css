@@ -247,8 +247,8 @@ h2 { font-size: clamp(30px, 4.4vw, 46px); line-height: 1.24; font-weight: 900; l
 .demo-frame { flex: 1; min-width: 0; }
 .demo-frame iframe { height: 100%; }
 .float-col { flex: 0 0 240px; width: 240px; display: flex; flex-direction: column; justify-content: flex-end; }
-.float-frame { height: 320px; border: 1px solid var(--line-2); border-radius: 16px; overflow: hidden;
-  background: var(--panel); box-shadow: var(--shadow-soft); }
+/* 壳完全隐形:原版小窗就是透明窗体,只有卡片本体浮在桌面上;菜单向上展开占用的也是透明区 */
+.float-frame { height: 320px; overflow: hidden; }
 .float-frame iframe { width: 240px; height: 320px; border: 0; display: block; }
 .demo-note { margin-top: 14px; text-align: center; font-size: 12.5px; color: var(--text-3); }
 .demo-stage { position: relative; }
