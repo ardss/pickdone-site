@@ -871,8 +871,8 @@
           'html, body { background: transparent !important; }',
           '#app { margin: 0 !important; }',
           '.floating { position: fixed !important; top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;',
-          '  align-items: flex-end !important; justify-content: flex-end !important; background: transparent !important; padding: 0 !important; }',
-          '.tomato { box-shadow: 0 10px 30px rgba(0,0,0,.18), 0 2px 8px rgba(0,0,0,.10) !important; }'
+          '  align-items: flex-end !important; justify-content: flex-end !important; background: transparent !important; padding: 0 !important; }'
+          // 注意:.tomato 禁止加 box-shadow——产品定稿( style-4.css )明载"外投影在透明窗被裁成四角脏边",1px 描边即视觉边界
         ].join('\n')
         d.head.appendChild(st)
       } catch (e) { /* 忽略 */ }
