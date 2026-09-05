@@ -14,6 +14,7 @@ const MIME = {
 http.createServer((req, res) => {
   let p = decodeURIComponent(req.url.split('?')[0])
   if (p === '/') p = '/index.html'
+  if (p.endsWith('/')) p += 'index.html'
   const file = path.join(ROOT, path.normalize(p).replace(/^([.][.][/\\])+/, ''))
   if (!file.startsWith(ROOT)) { res.writeHead(403); return res.end() }
   fs.readFile(file, (err, buf) => {

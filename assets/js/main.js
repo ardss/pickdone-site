@@ -788,7 +788,8 @@
 
   function applyLang (lang) {
     if (!I18N[lang]) return
-    var pinY = window.scrollY
+    var scEl = document.scrollingElement || document.documentElement // 本站滚动容器是 body(overflow:hidden auto),window.scrollY 恒为 0
+    var pinY = scEl.scrollTop
     currentLang = lang
     try { localStorage.setItem(LS_LANG, lang) } catch (e) { /* 私密模式忽略 */ }
     var nodes = document.querySelectorAll('[data-i18n],[data-i18n-html]')
@@ -822,8 +823,36 @@
     bZh.setAttribute('aria-pressed', String(lang === 'zh'))
     bEn.setAttribute('aria-pressed', String(lang === 'en'))
     // 文案替换会改变各段高度,浏览器的滚动锚定可能把页面甩到别处;显式钉回原位
-    if (window.scrollY !== pinY) window.scrollTo({ top: pinY, behavior: 'instant' })
+    if (scEl.scrollTop !== pinY) scEl.scrollTop = pinY
   }
+
+  // 站内锚点:接管点击,自绘平滑滚动(本站原生 smooth 在部分环境下静默失效),滚完抹掉网址锚点,
+  // 否则刷新会被浏览器重新定位回锚点(表现为"一打开就自动滚到演示区")
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var target = document.getElementById(a.getAttribute('href').slice(1))
+      if (!target) return
+      e.preventDefault()
+      var sc = document.scrollingElement || document.documentElement
+      var from = sc.scrollTop, to = target.getBoundingClientRect().top + from
+      var dist = to - from
+      if (Math.abs(dist) < 2) { try { history.replaceState(null, '', location.pathname + location.search) } catch (err) {} ; return }
+      var t0 = null, DUR = Math.min(820, 380 + Math.abs(dist) * 0.18)
+      var lastY = -1, lastTs = 0
+      function step (ts) {
+        if (t0 === null) t0 = ts
+        // 后台标签 rAF 会被节流:若已开工却长时间零进展,直接瞬移到位兜底
+        if (ts - t0 > 200 && sc.scrollTop === lastY && lastTs && ts - lastTs > 200) sc.scrollTop = to
+        var p = Math.min((ts - t0) / DUR, 1)
+        p = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2
+        sc.scrollTop = from + dist * p
+        lastY = sc.scrollTop; lastTs = ts
+        if (p < 1) requestAnimationFrame(step)
+        else try { history.replaceState(null, '', location.pathname + location.search) } catch (err) { /* 忽略 */ }
+      }
+      requestAnimationFrame(step)
+    })
+  })
 
   document.getElementById('langZh').addEventListener('click', function () { applyLang('zh') })
   document.getElementById('langEn').addEventListener('click', function () { applyLang('en') })
