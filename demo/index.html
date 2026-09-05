@@ -76,7 +76,21 @@
   } catch (e) { /* 忽略 */ }
 })()
 </script>
-<script src="./demo-shim.js?v=1788582049993"></script>
+<script>
+// iframe 内应用的 .focus()(QuickAdd 启动聚焦等)会让 Chromium 把父页面滚到 iframe 处,
+// 这是"打开官网自动滚到演示区"的根因;demo 内所有 focus 一律 preventScroll
+;(function(){
+  var of = HTMLElement.prototype.focus
+  HTMLElement.prototype.focus = function () {
+    var a = Array.prototype.slice.call(arguments)
+    var opt = (a[0] && typeof a[0] === 'object') ? a[0] : {}
+    opt.preventScroll = true
+    a[0] = opt
+    return of.apply(this, a)
+  }
+})()
+</script>
+<script src="./demo-shim.js?v=1788589284802"></script>
 <script>
 // 演示专注记录:与 browser-dev 调试宿主同款注入(tomatoAppendMany 原子 op,幂等不双账),标签双语
 ;(function () {
@@ -135,7 +149,7 @@
   }, 200)
 })()
 </script>
-  <script type="module" crossorigin src="./assets/index-BHalFwBl.js"></script>
+  <script type="module" crossorigin src="./assets/index-CnKxTYjk.js"></script>
 </head>
 <body>
   <div id="app"></div>

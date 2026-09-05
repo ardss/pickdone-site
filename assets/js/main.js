@@ -789,6 +789,7 @@
   function applyLang (lang) {
     if (!I18N[lang]) return
     var scEl = document.scrollingElement || document.documentElement // 本站滚动容器是 body(overflow:hidden auto),window.scrollY 恒为 0
+    if (window.__releaseScrollPin) window.__releaseScrollPin()
     var pinY = scEl.scrollTop
     currentLang = lang
     try { localStorage.setItem(LS_LANG, lang) } catch (e) { /* 私密模式忽略 */ }
@@ -833,6 +834,7 @@
       var target = document.getElementById(a.getAttribute('href').slice(1))
       if (!target) return
       e.preventDefault()
+      if (window.__releaseScrollPin) window.__releaseScrollPin()
       var sc = document.scrollingElement || document.documentElement
       var from = sc.scrollTop, to = target.getBoundingClientRect().top + from
       var dist = to - from
