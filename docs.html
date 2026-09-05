@@ -9,7 +9,16 @@
 <link rel="canonical" href="https://pickdone.app/docs.html">
 <link rel="icon" type="image/png" href="assets/img/logo-64.png">
 <link rel="stylesheet" href="assets/css/style.css?v=1788586545385">
-  <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual'</script>
+  <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    // 带锚点(#demo 等)打开时浏览器必然跳到锚点处;按用户要求统一改为从页顶开始,并抹掉锚点防刷新回跳
+    if (location.hash) addEventListener('load', function () {
+      scrollTo(0, 0)
+      var n = 0, iv = setInterval(function () {
+        scrollTo(0, 0)
+        if (++n > 12) clearInterval(iv)
+      }, 100)
+      try { history.replaceState(null, '', location.pathname + location.search) } catch (e) { /* 忽略 */ }
+    })</script>
 </head>
 <body>
 

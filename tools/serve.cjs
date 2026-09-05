@@ -13,6 +13,8 @@ const MIME = {
 
 http.createServer((req, res) => {
   let p = decodeURIComponent(req.url.split('?')[0])
+  // 旧宣传单页路径重定向回首页(该页已废弃,避免书签/旧标签继续踩到无修复版本)
+  if (p.indexOf('/宣传/website') === 0) { res.writeHead(302, { Location: '/' }); return res.end() }
   if (p === '/') p = '/index.html'
   if (p.endsWith('/')) p += 'index.html'
   const file = path.join(ROOT, path.normalize(p).replace(/^([.][.][/\\])+/, ''))
